@@ -1,0 +1,79 @@
+body{
+	background-color: #EAEAF2;
+}
+.main-container {
+	display: flex;
+	justify-content: center;
+}
+
+.app-content {
+	width: 50%;
+	min-width: 200px;
+	min-height: 300px;
+}
+
+.tabs-container {
+	overflow: hidden;
+}
+
+.tab {
+	color: white;
+	background-color: #f7345e;
+	float: left;
+	border-top-left-radius: 8px;
+	border-top-right-radius: 8px;
+	border: none;
+	padding: 4px 32px;
+	transition: 0.3s;
+}
+
+.tab.active {
+	color: black;
+	background-color: white;
+}
+
+.tab:not(.active):hover{
+	background-color: #1ECD97;
+	cursor: pointer;
+}
+
+.tab-content {
+	height: 100%;
+	width: 100%;
+	border: none;
+	border-top-right-radius: 8px;
+	border-bottom-left-radius: 8px;
+	border-bottom-right-radius: 8px;
+	padding: 20px;
+	background-color: white;
+}
+
+.text-input {
+    resize: None;
+	width: 100%;
+	min-height: 100px;
+    border-radius: 4px;
+	box-sizing: border-box; 
+	margin-bottom: 20px;
+	background-color: #f0f2f6;
+	padding: 10px 10px 10px 10px;
+	border: none;
+}
+
+.text-input:focus {
+    outline: none;
+	border: 1px solid #a3a8b4;
+}
+
+.submit {
+	padding: 4px 32px;
+	cursor: pointer;
+	border-radius: 16px;
+	border: none;
+	color: white;
+	background-color: #22c8e5;
+}
+
+.submit:hover{
+	background-color: #1ECD97;
+}

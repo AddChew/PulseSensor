@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+
+<html>
+	<head>
+		<link rel="stylesheet" href="./styles/styles.css">
+	</head>
+
+	<body>
+		<div class='main-container'>
+			<div class='app-content'>
+				<div class='tabs-container'>
+					<button class='tab active' onclick='switchTab(event)'>Single</button>
+					<button class='tab' onclick='switchTab(event)'>Batch</button>
+				</div>
+				<div class='tab-content'>
+					<textarea class='text-input' placeholder='Enter employee review here.'></textarea>
+					<button class='submit'>Submit</button>
+					<!-- <p>Positive Sentiment with a probability of 0.99</p>
+					<p>Positive Sentiment with a probability of 0.99</p> -->
+				</div>
+			</div>
+		</div>
+
+		<script>
+			let switchTab = evt => {
+				Array.prototype.forEach.call(document.getElementsByClassName('tab'), element => element.className = element.className.replace(' active', ''))
+				evt.currentTarget.className += ' active'
+			}
+		</script> 
+	</body>
+
+</html>
