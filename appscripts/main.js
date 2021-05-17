@@ -1,6 +1,8 @@
-let switchTab = evt => {
+let switchActiveTab = (evt, id) => {
     Array.prototype.forEach.call(document.getElementsByClassName('tab'), element => element.className = element.className.replace(' active', ''))
+    Array.prototype.forEach.call(document.getElementsByClassName('tab-content'), element => element.className = element.className.replace(' active', ''))
     evt.currentTarget.className += ' active'
+    document.getElementById(id).className += ' active'
 }
 
 let adjustTextAreaHeight = () =>{

@@ -48,6 +48,11 @@ body {
 	border-bottom-right-radius: .5rem;
 	padding: 1.75rem;
 	background-color: white;
+	display: none;
+}
+
+.tab-content.active {
+	display: block;
 }
 
 .text-input {
