@@ -1,14 +1,18 @@
 <!DOCTYPE html>
 
-<html>
+<html lang="en">
 	<head>
-		<!-- Include styles.css from styles directory -->
-		<link rel="stylesheet" href="./styles/styles.css">
+    	<!-- Include Tensorflow Library from jslibs directory -->
+    	<script src='./static/appscripts/jslibs/tfjs.js' defer></script>
+		<!-- Include tokenizer.js from tokenizer directory -->
+		<script src='./static/appscripts/tokenizer/tokenizer.js' defer></script>	
 		<!-- Include main.js from appscripts directory -->
-		<script src="./appscripts/main.js" defer> </script>
+		<script src='./static/appscripts/main.js' defer></script>
+		<!-- Include styles.css from styles directory -->
+		<link rel='stylesheet' href='./static/styles/styles.css'>
 	</head>
 
-	<body>
+	<body onload='loadTokenizer(); loadModel();'>
 		<div class='app-content'>
 
 			<div class='tabs-container'>
@@ -18,13 +22,24 @@
 
 			<div class='tab-content active' id='single'>
 				<textarea class='text-input' id='text-input' placeholder='Enter employee review here.' oninput='adjustTextAreaHeight()'></textarea>
-				<div class='message-box negative' id='alert'>Please enter an employee review!</div>
+				<div class='message-box alert' id='alert'>Please enter an employee review!</div>
 				<button class='submit' onclick='predict(event)'>Submit</button>
-				<div class='message-box positive' id='pred-sentiment'>Negative Sentiment with a probability of 0.99</div>
+				<div class='message-box' id='pred-sentiment'></div>
+				<div class='message-box' id='pred-time'></div>
 			</div>
 
 			<div class='tab-content' id='batch'>
-				<input type='file' accept='.csv'>
+				<!-- <div class='drop-area'>
+					<input class='file-input' type='file' accept='.csv'>
+					Drag and Drop file here
+					<p>Drag and Drop file here</p>
+					<p>Or</p>
+					<p>Click to Upload</p> -->
+				<!-- </div>  -->
+					<!-- < <p>Drag and Drop File Here<br>(Must be .CSV)</p>
+					<p>Or</p>
+					<button>Browse</button> --> 
+				<!-- </div> -->
 			</div>
 
 		</div>
