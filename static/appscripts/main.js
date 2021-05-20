@@ -16,22 +16,21 @@ let validateInput = () => {
     const textareaElement = document.getElementById('text-input')
     const alertElement = document.getElementById('alert')
 
-    textareaElement.className = textareaElement.className.replace(' error', '')
-    alertElement.className = alertElement.className.replace(' negative', '')
+    textareaElement.classList.remove('error')
+    alertElement.classList.remove('negative')
 
     if (textareaElement.value) return true
 
-    textareaElement.className += ' error'
-    alertElement.className += ' negative'
+    textareaElement.classList.add('error')
+    alertElement.classList.add('negative')
     return false
 }
 
 let predict = evt => {
     const predSentimentElement = document.getElementById('pred-sentiment')
     const predTimeElement = document.getElementById('pred-time')
-    predSentimentElement.className = predSentimentElement.className.split(' ')[0]
-    predTimeElement.className = predTimeElement.className.replace(' info', '')
-    toggleSubmitButtonState(evt)
+    predSentimentElement.classList.remove('positive', 'negative', 'neutral')
+    predTimeElement.classList.remove('info')
 
     if (validateInput()) {
         const startTime = performance.now()
@@ -45,28 +44,25 @@ let predict = evt => {
         const timeTakenSeconds = (endTime - startTime) / 1000
 
         predSentimentElement.textContent = `${predClassName} sentiment with a probability of ${maxProb}.`
-        predSentimentElement.className += ` ${predClassName.toLowerCase()}`
+        predSentimentElement.classList.add(`${predClassName.toLowerCase()}`)
         predTimeElement.textContent = `Prediction was successfully completed in ${timeTakenSeconds.toFixed(2)}s.`
-        predTimeElement.className += ' info'
+        predTimeElement.classList.add('info')
    }
-    toggleSubmitButtonState(evt)
 }
 
 let switchActiveTab = (evt, id) => {
-    Array.prototype.forEach.call(document.getElementsByClassName('tab'), element => element.className = element.className.replace(' active', ''))
-    Array.prototype.forEach.call(document.getElementsByClassName('tab-content'), element => element.className = element.className.replace(' active', ''))
-    evt.currentTarget.className += ' active'
-    document.getElementById(id).className += ' active'
+    const tabs = document.querySelectorAll('.tab')
+    const tabContents = document.querySelectorAll('.tab-content')
+
+    tabs.forEach(tab => tab.classList.remove('active'))
+    tabContents.forEach(tabContent => tabContent.classList.remove('active'))
+
+    evt.currentTarget.classList.add('active')
+    document.getElementById(id).classList.add('active')
 }
 
 let adjustTextAreaHeight = () =>{
     const textareaElement = document.getElementById('text-input')
     textareaElement.style.height = ''
     textareaElement.style.height = `${textareaElement.scrollHeight + 3}px`
-}
-
-let toggleSubmitButtonState = evt => {
-    const buttonElement = evt.currentTarget
-    if (buttonElement.textContent === 'Submit') buttonElement.textContent = 'Please Wait...'
-    else buttonElement.textContent = 'Submit'
 }
