@@ -30,12 +30,12 @@ body {
 }
 
 .tab.active {
-	color: #212529;
+	color: #201E25;
 	background-color: #fff;
 }
 
 .tab:not(.active):hover{
-	background-color:#27c48a;
+	background-color:#04AA6D;
 	cursor: pointer;
 }
 
@@ -73,7 +73,7 @@ body {
 }
 
 .text-input.error {
-	border: .125rem solid #f7345e;
+	border: .125rem solid #F4333D;
 }
 
 .submit {
@@ -88,7 +88,7 @@ body {
 }
 
 .submit:hover{
-	background-color: #27c48a;
+	background-color: #04AA6D;
 }
 
 .message-box {
@@ -134,19 +134,30 @@ body {
 	display: block;	
 }
 
-/* .drop-area {
+.drop-area {
+	color: #201E25;
+	border: 2px dashed #ddd;
+	border-radius: .5rem;
 	width: 100%;
-	min-height: 6rem;
+	min-height: 15rem;
 	background-color: #f0f2f6;
-	border: none;
-    border-radius: .25rem;
-	position: relative;
-	text-align: center;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
 } 
 
-.file-input {
-	position: absolute;
-	height: 100%;
-	width: 100%;
-	opacity: 0; 
-} */
+.drop-area header {
+	font-size: 1.25rem;
+}
+
+.drop-area span {
+	color: #696671;
+	font-size: .9rem;
+	margin-top: 1rem;
+	margin-bottom: 1rem;
+}
+
+.drop-area .submit {
+	margin: 0rem;
+}

@@ -16,11 +16,11 @@
 		<div class='app-content'>
 
 			<div class='tabs-container'>
-				<button class='tab active' onclick='switchActiveTab(event, "single")'>Single</button>
-				<button class='tab' onclick='switchActiveTab(event, "batch")'>Batch</button>
+				<button class='tab' onclick='switchActiveTab(event, "single")'>Single</button>
+				<button class='tab active' onclick='switchActiveTab(event, "batch")'>Batch</button>
 			</div>
 
-			<div class='tab-content active' id='single'>
+			<div class='tab-content' id='single'>
 				<textarea class='text-input' id='text-input' placeholder='Enter employee review here.' oninput='adjustTextAreaHeight()'></textarea>
 				<div class='message-box alert' id='alert'>Please enter an employee review!</div>
 				<button class='submit' onclick='predict(event)'>Submit</button>
@@ -28,18 +28,13 @@
 				<div class='message-box' id='pred-time'></div>
 			</div>
 
-			<div class='tab-content' id='batch'>
-				<!-- <div class='drop-area'>
-					<input class='file-input' type='file' accept='.csv'>
-					Drag and Drop file here
-					<p>Drag and Drop file here</p>
-					<p>Or</p>
-					<p>Click to Upload</p> -->
-				<!-- </div>  -->
-					<!-- < <p>Drag and Drop File Here<br>(Must be .CSV)</p>
-					<p>Or</p>
-					<button>Browse</button> --> 
-				<!-- </div> -->
+			<div class='tab-content active' id='batch'>
+				<div class='drop-area'>
+					<header>Drop your File here</header>
+					<span>OR</span>
+					<button class='submit'>Browse</button>
+					<input type='file' hidden>
+				</div>
 			</div>
 
 		</div>
