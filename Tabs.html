@@ -29,11 +29,11 @@
 			</div>
 
 			<div class='tab-content active' id='batch'>
-				<div class='drop-area'>
+				<div class='drop-area' ondragover='fileOver(event)' ondrop='fileDrop(event)'>
 					<header>Drop your File here</header>
 					<span>OR</span>
-					<button class='submit'>Browse</button>
-					<input type='file' hidden>
+					<button class='submit' onclick='clickInput()'>Browse</button>
+					<input type='file' accept='.csv' hidden>
 				</div>
 			</div>
 

@@ -66,3 +66,14 @@ let adjustTextAreaHeight = () =>{
     textareaElement.style.height = ''
     textareaElement.style.height = `${textareaElement.scrollHeight + 3}px`
 }
+
+let clickInput = () => document.querySelector('.drop-area input').click()
+
+let fileOver = evt => {
+    evt.preventDefault()
+    // evt.currentTarget.classList.add('active')
+}
+
+let fileDrop = evt => {
+    evt.preventDefault()
+}

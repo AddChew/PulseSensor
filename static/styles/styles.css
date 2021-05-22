@@ -147,6 +147,10 @@ body {
 	flex-direction: column;
 } 
 
+.drop-area.active {
+	background-color: #ddd;
+}
+
 .drop-area header {
 	font-size: 1.25rem;
 }
