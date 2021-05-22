@@ -22,19 +22,20 @@
 
 			<div class='tab-content' id='single'>
 				<textarea class='text-input' id='text-input' placeholder='Enter employee review here.' oninput='adjustTextAreaHeight()'></textarea>
-				<div class='message-box alert' id='alert'>Please enter an employee review!</div>
+				<div class='message-box alert' id='invalid-input-alert'>Please enter an employee review!</div>
 				<button class='submit' onclick='predict(event)'>Submit</button>
 				<div class='message-box' id='pred-sentiment'></div>
 				<div class='message-box' id='pred-time'></div>
 			</div>
 
 			<div class='tab-content active' id='batch'>
-				<div class='drop-area' ondragover='fileOver(event)' ondrop='fileDrop(event)'>
+				<div class='drop-area' ondragover='fileDragState(event, "over")' ondragleave='fileDragState(event, "leave")' ondrop='uploadFile(event, "drag")'>
 					<header>Drop your File here</header>
 					<span>OR</span>
 					<button class='submit' onclick='clickInput()'>Browse</button>
-					<input type='file' accept='.csv' hidden>
+					<input type='file' accept='.csv' onchange='uploadFile(this, "button")' hidden>
 				</div>
+				<div class='message-box alert' id='invalid-file-type-alert'>Please upload a CSV file!</div>
 			</div>
 
 		</div>

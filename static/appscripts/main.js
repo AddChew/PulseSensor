@@ -14,7 +14,7 @@ let loadModel = async () => {
 
 let validateInput = () => {
     const textareaElement = document.getElementById('text-input')
-    const alertElement = document.getElementById('alert')
+    const alertElement = document.getElementById('invalid-input-alert')
 
     textareaElement.classList.remove('error')
     alertElement.classList.remove('negative')
@@ -69,11 +69,38 @@ let adjustTextAreaHeight = () =>{
 
 let clickInput = () => document.querySelector('.drop-area input').click()
 
-let fileOver = evt => {
-    evt.preventDefault()
-    // evt.currentTarget.classList.add('active')
+let validateFileType = fileName => {
+    const alertElement = document.getElementById('invalid-file-type-alert')
+    alertElement.classList.remove('negative')
+    if (fileName.slice(-4) === '.csv') return true
+    alertElement.classList.add('negative')
+    return false
 }
 
-let fileDrop = evt => {
+let fileDragState = (evt, state) => {
     evt.preventDefault()
+    if (state === 'over') evt.currentTarget.classList.add('active')
+    if (state === 'leave') evt.currentTarget.classList.remove('active')
+}
+
+let uploadFile = (evt, mode) => {
+    if (mode === 'drag') {
+        fileDragState(evt, 'leave')
+        file = evt.dataTransfer.files[0]
+    }
+    if (mode === 'button') file = evt.files[0]
+
+    if (validateFileType(file.name)) {
+        document.querySelector('.drop-area header').textContent = file.name
+        document.querySelector('.drop-area span').textContent = formatFileSize(file.size)
+    } else {
+        document.querySelector('.drop-area header').textContent = 'Drop your File here'
+        document.querySelector('.drop-area span').textContent = 'OR'      
+    }
+}
+
+let formatFileSize = fileSize => {
+    if (fileSize >= Math.pow(10, 6)) return `${(fileSize / Math.pow(10,6)).toFixed(0)} MB`
+    if (fileSize >= Math.pow(10, 3)) return `${(fileSize / Math.pow(10,3)).toFixed(0)} KB`
+    else return `${fileSize.toFixed(0)} B`
 }
