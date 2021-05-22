@@ -1,7 +1,7 @@
 body {
 	display: flex;
 	justify-content: center;
-	background-color: #EAEAF2;
+	background-color: #153855;
 }
 
 .app-content {
@@ -15,8 +15,8 @@ body {
 }
 
 .tab {
-	color: white;
-	background-color: #f7345e;
+	color: #fff;
+	background-color: #c62927;
 	float: left;
 	border-top-left-radius: .5rem;
 	border-top-right-radius: .5rem;
@@ -30,12 +30,12 @@ body {
 }
 
 .tab.active {
-	color: black;
-	background-color: white;
+	color: #212529;
+	background-color: #fff;
 }
 
 .tab:not(.active):hover{
-	background-color: #1ECD97;
+	background-color:#27c48a;
 	cursor: pointer;
 }
 
@@ -47,7 +47,7 @@ body {
 	border-bottom-left-radius: .5rem;
 	border-bottom-right-radius: .5rem;
 	padding: 1.75rem;
-	background-color: white;
+	background-color: #fff;
 	display: none;
 }
 
@@ -82,13 +82,13 @@ body {
 	border-radius: 1rem;
 	border: none;
 	color: white;
-	background-color: #22c8e5;
+	background-color:#005bad;
 	margin-top: 1.75rem;
 	margin-bottom: 1.75rem;
 }
 
 .submit:hover{
-	background-color: #1ECD97;
+	background-color: #27c48a;
 }
 
 .message-box {
