@@ -83,7 +83,8 @@ let fileDragState = (evt, state) => {
     if (state === 'leave') evt.currentTarget.classList.remove('active')
 }
 
-let uploadFile = (evt, mode) => {
+let fileUploaded = (evt, mode) => {
+    let file
     if (mode === 'drag') {
         fileDragState(evt, 'leave')
         file = evt.dataTransfer.files[0]
@@ -93,9 +94,36 @@ let uploadFile = (evt, mode) => {
     if (validateFileType(file.name)) {
         document.querySelector('.drop-area header').textContent = file.name
         document.querySelector('.drop-area span').textContent = formatFileSize(file.size)
+        return file
     } else {
         document.querySelector('.drop-area header').textContent = 'Drop your File here'
-        document.querySelector('.drop-area span').textContent = 'OR'      
+        document.querySelector('.drop-area span').textContent = 'Supported file type: .csv'      
+    }
+    return null
+}
+
+let readFileAsURL = file => {
+    return new Promise((resolve, reject) => {
+        const fileReader = new FileReader()
+        fileReader.onload = () => resolve(fileReader.result)
+        fileReader.onerror = () => reject
+        fileReader.readAsDataURL(file)
+    })
+}
+
+let readFileAsDataFrame = async file => {
+    const fileURL = await readFileAsURL(file)
+    const fileJson = await d3.csv(fileURL)
+    return new dfd.DataFrame(fileJson)
+}
+
+let previewDataFrame = async (evt, mode) => {
+    const file = fileUploaded(evt, mode)
+    if (file) {
+        const dataframe = await readFileAsDataFrame(file)
+        console.log(dataframe.head())
+        console.log(dataframe.col_types.indexOf('string'))
+        // console.log(dataframe.columns)
     }
 }
 

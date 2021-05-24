@@ -4,6 +4,10 @@
 	<head>
     	<!-- Include Tensorflow Library from jslibs directory -->
     	<script src='./static/appscripts/jslibs/tfjs.js' defer></script>
+    	<!-- Include Danfo Library from jslibs directory -->
+    	<script src='./static/appscripts/jslibs/bundle.min.js' defer></script>
+    	<!-- Include d3 Library from jslibs directory -->
+    	<script src='./static/appscripts/jslibs/d3.min.js' defer></script>
 		<!-- Include tokenizer.js from tokenizer directory -->
 		<script src='./static/appscripts/tokenizer/tokenizer.js' defer></script>	
 		<!-- Include main.js from appscripts directory -->
@@ -29,11 +33,11 @@
 			</div>
 
 			<div class='tab-content active' id='batch'>
-				<div class='drop-area' ondragover='fileDragState(event, "over")' ondragleave='fileDragState(event, "leave")' ondrop='uploadFile(event, "drag")'>
+				<div class='drop-area' ondragover='fileDragState(event, "over")' ondragleave='fileDragState(event, "leave")' ondrop='previewDataFrame(event, "drag")'>
 					<header>Drop your File here</header>
-					<span>OR</span>
+					<span>Supported file type: .csv</span>
 					<button class='submit' onclick='clickInput()'>Browse</button>
-					<input type='file' accept='.csv' onchange='uploadFile(this, "button")' hidden>
+					<input type='file' accept='.csv' onchange='previewDataFrame(this, "button")' hidden>
 				</div>
 				<div class='message-box alert' id='invalid-file-type-alert'>Please upload a CSV file!</div>
 			</div>
