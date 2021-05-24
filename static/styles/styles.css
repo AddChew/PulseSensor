@@ -6,8 +6,6 @@ body {
 
 .app-content {
 	width: 50%;
-	min-width: 12rem;
-	min-height: 18rem;
 }
 
 .tabs-container {
@@ -40,14 +38,13 @@ body {
 }
 
 .tab-content {
-	height: 100%;
-	width: 100%;
 	border: none;
 	border-top-right-radius: .5rem;
 	border-bottom-left-radius: .5rem;
 	border-bottom-right-radius: .5rem;
 	padding: 1.75rem;
 	background-color: #fff;
+	min-height: 18rem;
 	display: none;
 }
 
@@ -77,14 +74,14 @@ body {
 }
 
 .submit {
-	padding: .25rem 2rem;
-	cursor: pointer;
-	border-radius: 1rem;
 	border: none;
+	border-radius: 1rem;
+	padding: .25rem 2rem;
+	margin-top: 1.75rem;
+	margin-bottom: 1.75rem;	
 	color: white;
 	background-color:#005bad;
-	margin-top: 1.75rem;
-	margin-bottom: 1.75rem;
+	cursor: pointer;
 }
 
 .submit:hover{
@@ -98,7 +95,7 @@ body {
 	cursor: default;
 }
 
-.message-box.alert {
+.invalid-input {
 	margin-top: .25rem;
 }
 
@@ -135,15 +132,15 @@ body {
 }
 
 .drop-area {
-	color: #201E25;
 	border: 2px dashed #ddd;
 	border-radius: .5rem;
-	min-height: 15rem;
+	color: #201E25;
 	background-color: #f0f2f6;
 	display: flex;
 	align-items: center;
 	justify-content: center;
 	flex-direction: column;
+	min-height: 15rem;
 } 
 
 .drop-area.active {
@@ -163,4 +160,4 @@ body {
 
 .drop-area .submit {
 	margin: 0rem;
-}
+} 
