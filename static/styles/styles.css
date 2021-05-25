@@ -95,11 +95,11 @@ body {
 	cursor: default;
 }
 
-.invalid-input {
+.message-box.invalid-input {
 	margin-top: .25rem;
 }
 
-.message-box#pred-time {
+.message-box.prediction-time {
 	margin-top: .5rem;
 }
 

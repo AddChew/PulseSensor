@@ -1,3 +1,27 @@
+const worker = new Worker('./static/appscripts/model.js' )
+
+const textareaElement = document.querySelector('.text-input')
+const singleAlertMessageElement = document.querySelector('.message-box.invalid-input.single')
+const singleSubmitButton = document.querySelector('.submit.predict.single')
+const predictedClassMessageElement = document.querySelector('.message-box.prediction')
+const singleTimeTakenMessageElement = document.querySelector('.message-box.prediction-time.single')
+
+const fileDropArea = document.querySelector('.drop-area')
+const fileDropAreaHeader = fileDropArea.querySelector('header')
+const fileDropAreaSpan = fileDropArea.querySelector('span')
+const fileDropAreaInput = fileDropArea.querySelector('input')
+const browseButton = document.querySelector('.submit.browse.batch')
+const batchAlertMessageElement = document.querySelector('.message-box.invalid-input.batch')
+
+worker.onmessage = message => {
+    const [{predClass, prob}, timeTaken] = message.data
+    singleSubmitButton.textContent = 'Submit'
+    predictedClassMessageElement.textContent = `${predClass} sentiment with a probability of ${prob}`
+    predictedClassMessageElement.classList.add(predClass.toLowerCase())
+    singleTimeTakenMessageElement.textContent = `Prediction was successfully completed in ${timeTaken}s`
+    singleTimeTakenMessageElement.classList.add('info')
+}
+
 let switchTab = evt => {
     const clickedTab = evt.currentTarget
     if (!clickedTab.classList.contains('active')) {
@@ -11,90 +35,77 @@ let switchTab = evt => {
     }
 }
 
-let adjustTextAreaHeight = evt =>{
-    const textareaElement = evt.currentTarget
+let adjustTextAreaHeight = () =>{
     textareaElement.style.height = ''
     textareaElement.style.height = `${textareaElement.scrollHeight + 3}px`
 }
 
+let validateInput = () => {
+    if (textareaElement.value) {
+        textareaElement.classList.remove('error')
+        singleAlertMessageElement.classList.remove('negative')
+    } else {
+        textareaElement.classList.add('error')
+        singleAlertMessageElement.classList.add('negative')
+    }
+    return textareaElement.value
+}
+
+let predict = () => {
+    const review = validateInput()
+    predictedClassMessageElement.classList.remove('positive', 'neutral', 'negative')
+    singleTimeTakenMessageElement.classList.remove('info')
+    if (review) {
+        singleSubmitButton.textContent = 'Please Wait...'
+        worker.postMessage(review)
+    }
+}
+
+let activateDropArea = (evt, state) => {
+    evt.preventDefault()
+    if (state === 'over') fileDropArea.classList.add('active')
+    if (state === 'leave') fileDropArea.classList.remove('active')
+}
+
+let validateFileType = file => {
+    batchAlertMessageElement.classList.remove('negative')
+    if (file.name.slice(-4) === '.csv') return file
+    batchAlertMessageElement.classList.add('negative')
+    return null
+}
+
+let uploadFile = (evt, method) => {
+    if (method === 'drag') {
+        activateDropArea(evt, 'leave')
+        var file = evt.dataTransfer.files[0]
+    }
+    if (method === 'button') var file = evt.target.files[0]
+
+    const validFile = validateFileType(file)
+    if (validFile) {
+        fileDropAreaHeader.textContent = validFile.name
+        fileDropAreaSpan.textContent = formatFileSize(validFile.size)
+    } else {
+        fileDropAreaHeader.textContent = 'Drop your File here'
+        fileDropAreaSpan.textContent = 'Supported file type: .csv' 
+    }
+    return validFile
+}
+
+let formatFileSize = fileSize => {
+    if (fileSize >= Math.pow(10, 6)) return `${(fileSize / Math.pow(10,6)).toFixed(0)} MB`
+    if (fileSize >= Math.pow(10, 3)) return `${(fileSize / Math.pow(10,3)).toFixed(0)} KB`
+    else return `${fileSize.toFixed(0)} B`
+}
+
+textareaElement.addEventListener('input', adjustTextAreaHeight)
+singleSubmitButton.addEventListener('click', predict)
+fileDropArea.addEventListener('dragover', evt => activateDropArea(evt, 'over'))
+fileDropArea.addEventListener('dragleave', evt => activateDropArea(evt, 'leave'))
+fileDropArea.addEventListener('drop', evt => uploadFile(evt, 'drag'))
+fileDropAreaInput.addEventListener('change', evt => uploadFile(evt, 'button'))
+browseButton.addEventListener('click', () => document.querySelector('.drop-area input').click())
 document.querySelectorAll('.tab').forEach(tab => tab.addEventListener('click', switchTab))
-document.querySelector('.text-input').addEventListener('input', adjustTextAreaHeight)
-
-
-
-
-// let validateInput = () => {
-//     const textareaElement = document.getElementById('text-input')
-//     const alertElement = document.getElementById('invalid-input-alert')
-
-//     textareaElement.classList.remove('error')
-//     alertElement.classList.remove('negative')
-
-//     if (textareaElement.value) return true
-
-//     textareaElement.classList.add('error')
-//     alertElement.classList.add('negative')
-//     return false
-// }
-
-// let predict = evt => {
-//     const predSentimentElement = document.getElementById('pred-sentiment')
-//     const predTimeElement = document.getElementById('pred-time')
-//     predSentimentElement.classList.remove('positive', 'negative', 'neutral')
-//     predTimeElement.classList.remove('info')
-
-//     if (validateInput()) {
-//         const startTime = performance.now()
-//         const review = document.getElementById('text-input').value
-//         const inputs = tokenizer.batchEncode(review)
-//         const outputs = model.predict(inputs)
-//         const predClass = outputs.argMax(1).arraySync()[0]
-//         const maxProb = outputs.max(1).arraySync()[0].toFixed(2)
-//         const predClassName = sentimentMap[predClass]
-//         const endTime = performance.now()
-//         const timeTakenSeconds = (endTime - startTime) / 1000
-
-//         predSentimentElement.textContent = `${predClassName} sentiment with a probability of ${maxProb}.`
-//         predSentimentElement.classList.add(`${predClassName.toLowerCase()}`)
-//         predTimeElement.textContent = `Prediction was successfully completed in ${timeTakenSeconds.toFixed(2)}s.`
-//         predTimeElement.classList.add('info')
-//    }
-// }
-
-// let clickInput = () => document.querySelector('.drop-area input').click()
-
-// let validateFileType = fileName => {
-//     const alertElement = document.getElementById('invalid-file-type-alert')
-//     alertElement.classList.remove('negative')
-//     if (fileName.slice(-4) === '.csv') return true
-//     alertElement.classList.add('negative')
-//     return false
-// }
-
-// let fileDragState = (evt, state) => {
-//     evt.preventDefault()
-//     if (state === 'over') evt.currentTarget.classList.add('active')
-//     if (state === 'leave') evt.currentTarget.classList.remove('active')
-// }
-
-// let fileUploaded = (evt, mode) => {
-//     let file
-//     if (mode === 'drag') {
-//         fileDragState(evt, 'leave')
-//         file = evt.dataTransfer.files[0]
-//     }
-//     if (mode === 'button') file = evt.files[0]
-
-//     if (validateFileType(file.name)) {
-//         document.querySelector('.drop-area header').textContent = file.name
-//         document.querySelector('.drop-area span').textContent = formatFileSize(file.size)
-//         return file
-//     } else {
-//         document.querySelector('.drop-area header').textContent = 'Drop your File here'
-//         document.querySelector('.drop-area span').textContent = 'Supported file type: .csv'      
-//     }
-//     return null
-// }
 
 // let readFileAsURL = file => {
 //     return new Promise((resolve, reject) => {
@@ -119,10 +130,4 @@ document.querySelector('.text-input').addEventListener('input', adjustTextAreaHe
 //         console.log(dataframe.col_types.indexOf('string'))
 //         // console.log(dataframe.columns)
 //     }
-// }
-
-// let formatFileSize = fileSize => {
-//     if (fileSize >= Math.pow(10, 6)) return `${(fileSize / Math.pow(10,6)).toFixed(0)} MB`
-//     if (fileSize >= Math.pow(10, 3)) return `${(fileSize / Math.pow(10,3)).toFixed(0)} KB`
-//     else return `${fileSize.toFixed(0)} B`
 // }
