@@ -1,3 +1,4 @@
+const fileReader = new FileReader()
 const worker = new Worker('./static/appscripts/model.js')
 const domElements = Array.from(document.body.querySelectorAll('*')).reduce((domElements, domElement) => {
     domElements[domElement.className] = domElement
@@ -89,36 +90,37 @@ let formatFileSize = fileSize => {
     else return `${fileSize.toFixed(0)} B`
 }
 
+let readFileAsURL = file => {
+    return new Promise((resolve, reject) => {
+        fileReader.onload = () => resolve(fileReader.result)
+        fileReader.onerror = () => reject
+        fileReader.readAsDataURL(file)
+    })
+}
+
+let readFileAsDataFrame = async file => {
+    const fileURL = await readFileAsURL(file)
+    const fileJson = await d3.csv(fileURL)
+    return new dfd.DataFrame(fileJson)
+}
+
+let previewDataFrame = async (evt, method) => {
+    const file = uploadFile(evt, method)
+    if (file) {
+        const dataframe = await readFileAsDataFrame(file)
+        console.log(dataframe.head().data)
+        console.log(dataframe.select_dtypes(include=['string']).columns)
+    }
+}
+
 domElements['text-input'].addEventListener('input', adjustTextAreaHeight)
 domElements['submit predict single'].addEventListener('click', predict)
 domElements['drop-area'].addEventListener('dragover', evt => activateDropArea(evt, 'over'))
 domElements['drop-area'].addEventListener('dragleave', evt => activateDropArea(evt, 'leave'))
-domElements['drop-area'].addEventListener('drop', evt => uploadFile(evt, 'drag'))
-domElements['hidden'].addEventListener('change', evt => uploadFile(evt, 'button'))
+domElements['drop-area'].addEventListener('drop', evt => previewDataFrame(evt, 'drag'))
+domElements['hidden'].addEventListener('change', evt => previewDataFrame(evt, 'button'))
 domElements['submit browse batch'].addEventListener('click', () => document.querySelector('.drop-area input').click())
 document.querySelectorAll('.tab').forEach(tab => tab.addEventListener('click', switchTab))
 
-// let readFileAsURL = file => {
-//     return new Promise((resolve, reject) => {
-//         const fileReader = new FileReader()
-//         fileReader.onload = () => resolve(fileReader.result)
-//         fileReader.onerror = () => reject
-//         fileReader.readAsDataURL(file)
-//     })
-// }
-
-// let readFileAsDataFrame = async file => {
-//     const fileURL = await readFileAsURL(file)
-//     const fileJson = await d3.csv(fileURL)
-//     return new dfd.DataFrame(fileJson)
-// }
-
-// let previewDataFrame = async (evt, mode) => {
-//     const file = fileUploaded(evt, mode)
-//     if (file) {
-//         const dataframe = await readFileAsDataFrame(file)
-//         console.log(dataframe.head())
-//         console.log(dataframe.col_types.indexOf('string'))
-//         // console.log(dataframe.columns)
-//     }
-// }
+// render select drop down list
+// render preview of dataframe
