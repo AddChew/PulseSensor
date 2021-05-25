@@ -122,5 +122,21 @@ domElements['hidden'].addEventListener('change', evt => previewDataFrame(evt, 'b
 domElements['submit browse batch'].addEventListener('click', () => document.querySelector('.drop-area input').click())
 document.querySelectorAll('.tab').forEach(tab => tab.addEventListener('click', switchTab))
 
+
+function* splitIntoBatches(reviewsArray, batchSize = 64){
+    for (let start = 0; start < reviewsArray.length; start += batchSize) {
+        const end = start + batchSize
+        yield reviewsArray.slice(start, end)
+    }
+}
+
+// test = ['I love my job', 'I hate my job', 'Life sucks', 'takes drugs']
+// batchGenerator = splitIntoBatches(reviewsArray=test, batchSize = 3)
+
+// for (batch of batchGenerator) {
+//     console.log(batch)
+// }
+
+// console.log(batchGenerator.next())
 // render select drop down list
 // render preview of dataframe
