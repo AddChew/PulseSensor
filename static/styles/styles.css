@@ -161,3 +161,7 @@ body {
 .drop-area .submit {
 	margin: 0rem;
 } 
+
+.hidden {
+	display: none;
+}

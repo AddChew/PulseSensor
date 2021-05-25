@@ -1,25 +1,16 @@
-const worker = new Worker('./static/appscripts/model.js' )
-
-const textareaElement = document.querySelector('.text-input')
-const singleAlertMessageElement = document.querySelector('.message-box.invalid-input.single')
-const singleSubmitButton = document.querySelector('.submit.predict.single')
-const predictedClassMessageElement = document.querySelector('.message-box.prediction')
-const singleTimeTakenMessageElement = document.querySelector('.message-box.prediction-time.single')
-
-const fileDropArea = document.querySelector('.drop-area')
-const fileDropAreaHeader = fileDropArea.querySelector('header')
-const fileDropAreaSpan = fileDropArea.querySelector('span')
-const fileDropAreaInput = fileDropArea.querySelector('input')
-const browseButton = document.querySelector('.submit.browse.batch')
-const batchAlertMessageElement = document.querySelector('.message-box.invalid-input.batch')
+const worker = new Worker('./static/appscripts/model.js')
+const domElements = Array.from(document.body.querySelectorAll('*')).reduce((domElements, domElement) => {
+    domElements[domElement.className] = domElement
+    return domElements
+}, {})
 
 worker.onmessage = message => {
     const [{predClass, prob}, timeTaken] = message.data
-    singleSubmitButton.textContent = 'Submit'
-    predictedClassMessageElement.textContent = `${predClass} sentiment with a probability of ${prob}`
-    predictedClassMessageElement.classList.add(predClass.toLowerCase())
-    singleTimeTakenMessageElement.textContent = `Prediction was successfully completed in ${timeTaken}s`
-    singleTimeTakenMessageElement.classList.add('info')
+    domElements['submit predict single'].textContent = 'Submit'
+    domElements['message-box prediction single'].textContent = `${predClass} sentiment with a probability of ${prob}`
+    domElements['message-box prediction single'].classList.add(predClass.toLowerCase())
+    domElements['message-box prediction-time single'].textContent = `Prediction was successfully completed in ${timeTaken}s`
+    domElements['message-box prediction-time single'].classList.add('info')
 }
 
 let switchTab = evt => {
@@ -36,41 +27,41 @@ let switchTab = evt => {
 }
 
 let adjustTextAreaHeight = () =>{
-    textareaElement.style.height = ''
-    textareaElement.style.height = `${textareaElement.scrollHeight + 3}px`
+    domElements['text-input'].style.height = ''
+    domElements['text-input'].style.height = `${domElements['text-input'].scrollHeight + 3}px`
 }
 
 let validateInput = () => {
-    if (textareaElement.value) {
-        textareaElement.classList.remove('error')
-        singleAlertMessageElement.classList.remove('negative')
+    if (domElements['text-input'].value) {
+        domElements['text-input'].classList.remove('error')
+        domElements['message-box invalid-input single'].classList.remove('negative')
     } else {
-        textareaElement.classList.add('error')
-        singleAlertMessageElement.classList.add('negative')
+        domElements['text-input'].classList.add('error')
+        domElements['message-box invalid-input single'].classList.add('negative')
     }
-    return textareaElement.value
+    return domElements['text-input'].value
 }
 
 let predict = () => {
     const review = validateInput()
-    predictedClassMessageElement.classList.remove('positive', 'neutral', 'negative')
-    singleTimeTakenMessageElement.classList.remove('info')
+    domElements['message-box prediction single'].classList.remove('positive', 'neutral', 'negative')
+    domElements['message-box prediction-time single'].classList.remove('info')
     if (review) {
-        singleSubmitButton.textContent = 'Please Wait...'
+        domElements['submit predict single'].textContent = 'Please Wait...'
         worker.postMessage(review)
     }
 }
 
 let activateDropArea = (evt, state) => {
     evt.preventDefault()
-    if (state === 'over') fileDropArea.classList.add('active')
-    if (state === 'leave') fileDropArea.classList.remove('active')
+    if (state === 'over') domElements['drop-area'].classList.add('active')
+    if (state === 'leave') domElements['drop-area'].classList.remove('active')
 }
 
 let validateFileType = file => {
-    batchAlertMessageElement.classList.remove('negative')
+    domElements['message-box invalid-input batch'].classList.remove('negative')
     if (file.name.slice(-4) === '.csv') return file
-    batchAlertMessageElement.classList.add('negative')
+    domElements['message-box invalid-input batch'].classList.add('negative')
     return null
 }
 
@@ -83,11 +74,11 @@ let uploadFile = (evt, method) => {
 
     const validFile = validateFileType(file)
     if (validFile) {
-        fileDropAreaHeader.textContent = validFile.name
-        fileDropAreaSpan.textContent = formatFileSize(validFile.size)
+        domElements['drop-area-header'].textContent = validFile.name
+        domElements['drop-area-span'].textContent = formatFileSize(validFile.size)
     } else {
-        fileDropAreaHeader.textContent = 'Drop your File here'
-        fileDropAreaSpan.textContent = 'Supported file type: .csv' 
+        domElements['drop-area-header'].textContent = 'Drop your File here'
+        domElements['drop-area-span'].textContent = 'Supported file type: .csv' 
     }
     return validFile
 }
@@ -98,13 +89,13 @@ let formatFileSize = fileSize => {
     else return `${fileSize.toFixed(0)} B`
 }
 
-textareaElement.addEventListener('input', adjustTextAreaHeight)
-singleSubmitButton.addEventListener('click', predict)
-fileDropArea.addEventListener('dragover', evt => activateDropArea(evt, 'over'))
-fileDropArea.addEventListener('dragleave', evt => activateDropArea(evt, 'leave'))
-fileDropArea.addEventListener('drop', evt => uploadFile(evt, 'drag'))
-fileDropAreaInput.addEventListener('change', evt => uploadFile(evt, 'button'))
-browseButton.addEventListener('click', () => document.querySelector('.drop-area input').click())
+domElements['text-input'].addEventListener('input', adjustTextAreaHeight)
+domElements['submit predict single'].addEventListener('click', predict)
+domElements['drop-area'].addEventListener('dragover', evt => activateDropArea(evt, 'over'))
+domElements['drop-area'].addEventListener('dragleave', evt => activateDropArea(evt, 'leave'))
+domElements['drop-area'].addEventListener('drop', evt => uploadFile(evt, 'drag'))
+domElements['hidden'].addEventListener('change', evt => uploadFile(evt, 'button'))
+domElements['submit browse batch'].addEventListener('click', () => document.querySelector('.drop-area input').click())
 document.querySelectorAll('.tab').forEach(tab => tab.addEventListener('click', switchTab))
 
 // let readFileAsURL = file => {
