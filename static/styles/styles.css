@@ -6,6 +6,7 @@ body {
 
 .app-content {
 	width: 50%;
+	counter-reset: list-number; /**/
 }
 
 .custom-page {
@@ -51,117 +52,22 @@ body {
 	display: block;	
 }
 
-/* .tabs-container {
-	overflow: hidden;
+.numbering{
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: .1rem .1rem;
+    margin-right: 1rem;
+    margin-bottom: 1rem;
+    border-radius: 50%;
+    font-size: 1rem;
+    color: #fff;
+    background-color: #c62927;
+    height: 1.2rem;
+    width: 1.2rem;
 }
 
-.tab {
-	color: #fff;
-	background-color: #c62927;
-	float: left;
-	border-top-left-radius: .5rem;
-	border-top-right-radius: .5rem;
-	border: none;
-	padding: .25rem 2rem;
-	transition: 0.3s;
+.focus {
+    font-weight: 600;
+    color: #04AA6D;
 }
-
-.tab:focus {
-    outline: none;
-}
-
-.tab.active {
-	color: #201E25;
-	background-color: #fff;
-}
-
-.tab:not(.active):hover{
-	background-color:#04AA6D;
-	cursor: pointer;
-}
-
-.tab-content {
-	border: none;
-	border-top-right-radius: .5rem;
-	border-bottom-left-radius: .5rem;
-	border-bottom-right-radius: .5rem;
-	padding: 1.75rem;
-	background-color: #fff;
-	min-height: 18rem;
-	display: none;
-}
-
-.tab-content.active {
-	display: block;
-}
-
-.text-input {
-    resize: None;
-	width: 100%;
-	min-height: 6rem;
-	border: none;
-    border-radius: .25rem;
-	box-sizing: border-box; 
-	background-color: #f0f2f6;
-	padding: .625rem .625rem;
-	display: block;
-}
-
-.text-input:focus {
-    outline: none;
-	border: .0625rem solid #a3a8b4;
-}
-
-.text-input.error {
-	border: .125rem solid #F4333D;
-}
-
-.submit {
-	border: none;
-	border-radius: 1rem;
-	padding: .25rem 2rem;
-	margin-top: 1.75rem;
-	margin-bottom: 1.75rem;	
-	color: white;
-	background-color:#005bad;
-	cursor: pointer;
-}
-
-.submit:hover{
-	background-color: #04AA6D;
-}
-
-.drop-area {
-	border: 2px dashed #ddd;
-	border-radius: .5rem;
-	color: #201E25;
-	background-color: #f0f2f6;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	flex-direction: column;
-	min-height: 15rem;
-} 
-
-.drop-area.active {
-	background-color: #ddd;
-}
-
-.drop-area header {
-	font-size: 1.25rem;
-}
-
-.drop-area span {
-	color: #696671;
-	font-size: .9rem;
-	margin-top: 1rem;
-	margin-bottom: 1rem;
-}
-
-.drop-area .submit {
-	margin: 0rem;
-} 
-
-.hidden {
-	display: none;
-} */

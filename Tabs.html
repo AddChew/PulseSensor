@@ -4,9 +4,13 @@
 	<head>
     	<!-- Include d3 Library from jslibs directory -->
     	<script src="./static/appscripts/jslibs/d3.min.js" defer></script>	
+		<!-- Include Choices Library from jslibs directory -->
+    	<script src="./static/appscripts/jslibs/choices.min.js" defer></script>	
 		<!-- Include main.js from appscripts directory -->
 		<script type="module" src="./static/appscripts/main.js"></script>
-		<!-- Include customElements.css from styles directory -->
+		<!-- Include choices.min.css from jslibs directory -->
+		<link rel='stylesheet' href='./static/appscripts/jslibs/choices.min.css'>		
+		<!-- Include customElements.css from jslibs directory -->
 		<link rel='stylesheet' href='./static/appscripts/jslibs/customElements.css'>
 		<!-- Include styles.css from styles directory -->
 		<link rel='stylesheet' href='./static/styles/styles.css'>
@@ -24,22 +28,41 @@
 			
 			<div class="Batch" data-tabs>
 				<div data-pages>
+					<div>
+						<span class="numbering">1</span>Upload Employee Reviews <span class="focus">CSV</span> file
+					</div>
 					<div class="custom-content">
 						<input>
 					</div>
 				</div>
 
 				<div data-pages>
+					<div>
+						<span class="numbering">2</span>Select <span class="focus">Reviews</span> column
+					</div>
 					<div class="custom-content">
+						<select></select>
 						<table></table>
 					</div>
 				</div>
 
 				<div data-pages>
+					<div>
+						<span class="numbering">3</span>Wait for <span class="focus">Predictions</span>
+					</div>
 					<div class="custom-content">
 						<div class="progress"></div>
 					</div>
 				</div>
+
+				<div data-pages>
+					<div>
+						<span class="numbering">4</span>Download <span class="focus">Predictions</span>
+					</div>
+					<div class="custom-content">
+						<!-- <div class="progress"></div> -->
+					</div>
+				</div>				
 			</div>
 
 		</div>

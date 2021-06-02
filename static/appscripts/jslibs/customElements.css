@@ -114,6 +114,7 @@
 }
 
 .custom-file-uploader-instructions {
+	text-align: center;
     font-size: 1.25rem;
 }
 
@@ -223,6 +224,7 @@
 	color: white;
 	background-color:#005bad;
 	cursor: pointer;
+	display: none;
 }
 
 .custom-pages-button.active {
