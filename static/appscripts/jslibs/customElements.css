@@ -1,0 +1,250 @@
+.custom-hidden {
+	display: none;
+}
+
+.custom-tab-button-container {
+    overflow: hidden;
+}
+
+.custom-tab-button {
+    float: left;
+	margin-right: .06rem;
+    padding: .25rem 2rem;
+    border: none;
+	border-top-left-radius: .5rem;
+	border-top-right-radius: .5rem;
+	color: #fff;
+	background-color: #c62927;
+	transition: 0.3s;   
+}
+
+.custom-tab-button:focus {
+    outline: none;
+}
+
+.custom-tab-button.active {
+	color: #201E25;
+	background-color: #fff;
+}
+
+.custom-tab-button:not(.active):hover{
+	background-color:#04AA6D;
+	cursor: pointer;
+}
+
+.custom-tab-content {
+	border: none;
+	border-top-right-radius: .5rem;
+	border-bottom-left-radius: .5rem;
+	border-bottom-right-radius: .5rem;
+	padding: 1.75rem;
+	background-color: #fff;
+	min-height: 18rem;
+	display: none;
+}
+
+.custom-tab-content.active {
+    display: block;
+}
+
+.custom-text-area {
+    resize: None;
+	width: 100%;
+	min-height: 6rem;
+    padding: .625rem .625rem;
+	border: none;
+    border-radius: .25rem;
+    background-color: #f0f2f6;
+	box-sizing: border-box; 
+	display: block;
+}
+
+.custom-text-area:focus {
+    outline: none;
+	border: .0625rem solid #a3a8b4;
+}
+
+.custom-text-area.active {
+    border: .125rem solid #F4333D;
+}
+
+.custom-button {
+	margin-top: 1.75rem;
+	margin-bottom: 1.75rem;	
+	padding: .25rem 2rem;
+	border: none;
+	border-radius: 1rem;
+	color: white;
+	background-color:#005bad;
+	cursor: pointer;
+}
+
+.custom-button:hover {
+	background-color: #04AA6D;
+}
+
+.custom-warning {
+	margin-top: .25rem;
+    padding: .75rem 1.25rem;
+    border: .0625rem solid #f5c6cb;
+	border-radius: .25rem;
+    color: #721c24;
+    background-color: #f8d7da;
+	display: none;  	
+}
+
+.custom-warning.active {
+	display: block;
+}
+
+.custom-file-uploader-container {
+	border: 2px dashed #ddd;
+	border-radius: .5rem;
+	color: #201E25;
+	background-color: #f0f2f6;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+	min-height: 15rem;
+} 
+
+.custom-file-uploader-container.active {
+	background-color: #ddd;
+}
+
+.custom-file-uploader-instructions {
+    font-size: 1.25rem;
+}
+
+.custom-file-uploader-supported {
+	color: #696671;
+	font-size: .9rem;
+	margin-top: 1rem;
+	margin-bottom: 1rem;
+}
+
+.custom-file-uploader-browse {
+    margin: 0rem;
+}
+
+.custom-progress {
+    min-height: 1rem;
+    border-radius: .125rem;
+    background-color: #eee;
+    overflow: hidden;
+    display: flex;
+}
+
+.custom-progress-value {
+    background-color: #04AA6D;
+    background-image: -webkit-linear-gradient(
+        45deg, 
+        rgba(255,255,255,.15) 25%,
+        transparent 25%,
+        transparent 50%,
+        rgba(255,255,255,.15) 50%,
+        rgba(255,255,255,.15) 75%,
+        transparent 75%,
+        transparent);
+    background-size: 2rem 2rem;
+    -webkit-animation: animate-stripes 1s linear infinite;
+    animation: animate-stripes 1s linear infinite;
+}
+
+.custom-table {
+    border-collapse: collapse;
+    width: 100%;
+    font-family: Arial, sans-serif;
+}
+
+.custom-table-thead, .custom-table-tbody {
+    border: .1rem solid #1ABC9C;
+}
+
+.custom-table-thead {
+    font-size: .85rem;
+    color: white;
+    background-color: #1ABC9C;
+}
+
+.custom-table-tbody {
+    font-size: .8rem;
+}
+
+.custom-table-th, .custom-table-td {
+    text-align: center;
+    padding: .3rem 1rem;
+}
+
+.custom-table-tbody .custom-table-tr:nth-child(even) {
+    background-color: #ECF0F1;
+}
+
+.custom-table-caption {
+    caption-side: bottom;
+    padding: .6rem;
+	font-size: .75rem;
+    font-style: italic;
+}
+
+.custom-page {
+	min-height: 18rem; 
+    border-radius: .5rem;
+	padding: 1.75rem;
+	background-color: #fff;
+	display: none;
+}
+
+.custom-page.active {
+	display: flex;
+	flex-direction: column;
+}
+
+.custom-content {
+	flex: 1 0 auto;
+	overflow-x: auto;
+}
+
+.custom-page-button-container {
+	display: none;
+}
+
+.custom-page-button-container.active {
+	flex-shrink: 0;
+	display: block;
+}
+
+.custom-pages-button {
+	margin-top: 1.75rem;
+	padding: .25rem 2rem;
+	border: none;
+	border-radius: 1rem;
+	color: white;
+	background-color:#005bad;
+	cursor: pointer;
+}
+
+.custom-pages-button.active {
+	display: block;
+}
+
+.custom-pages-button:hover {
+	background-color: #04AA6D;
+}
+
+.custom-pages-button.back {
+    float: left;
+}
+
+.custom-pages-button.next {
+    float: right;
+}
+
+@-webkit-keyframes animate-stripes {
+    100% { background-position: -6rem 0rem; }
+}
+
+@keyframes animate-stripes {
+    100% { background-position: -6rem 0rem; }
+}

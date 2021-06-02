@@ -2,12 +2,12 @@
 
 <html lang="en">
 	<head>
-    	<!-- Include Danfo Library from jslibs directory -->
-    	<script src='./static/appscripts/jslibs/bundle.min.js' defer></script>
     	<!-- Include d3 Library from jslibs directory -->
-    	<script src='./static/appscripts/jslibs/d3.min.js' defer></script>	
+    	<script src="./static/appscripts/jslibs/d3.min.js" defer></script>	
 		<!-- Include main.js from appscripts directory -->
-		<script src='./static/appscripts/main.js' defer></script>
+		<script type="module" src="./static/appscripts/main.js"></script>
+		<!-- Include customElements.css from styles directory -->
+		<link rel='stylesheet' href='./static/appscripts/jslibs/customElements.css'>
 		<!-- Include styles.css from styles directory -->
 		<link rel='stylesheet' href='./static/styles/styles.css'>
 	</head>
@@ -15,27 +15,31 @@
 	<body>
 		<div class='app-content'>
 
-			<div class='tabs-container'>
-				<button class='tabs tab single active'>Single</button>
-				<button class='tabs tab batch'>Batch</button>
+			<div class="Single" data-tabs>
+				<textarea></textarea>
+				<button></button>
+				<div class="message"></div>
+				<div class="message pred-time"></div>
 			</div>
-
-			<div class='tabs tab-content single active'>
-				<textarea class='text-input' placeholder='Enter employee review here.'></textarea>
-				<div class='message-box invalid-input single'>Please enter an employee review!</div>
-				<button class='submit predict single'>Submit</button>
-				<div class='message-box prediction single'></div>
-				<div class='message-box prediction-time single'></div>
-			</div>
-
-			<div class='tabs tab-content batch'>
-				<div class='drop-area'>
-					<header class='drop-area-header'>Drop your File here</header>
-					<span class='drop-area-span'>Supported file type: .csv</span>
-					<button class='submit browse batch'>Browse</button>
-					<input class='hidden' type='file' accept='.csv'>
+			
+			<div class="Batch" data-tabs>
+				<div data-pages>
+					<div class="custom-content">
+						<input>
+					</div>
 				</div>
-				<div class='message-box invalid-input batch'>Please upload a CSV file!</div>
+
+				<div data-pages>
+					<div class="custom-content">
+						<table></table>
+					</div>
+				</div>
+
+				<div data-pages>
+					<div class="custom-content">
+						<div class="progress"></div>
+					</div>
+				</div>
 			</div>
 
 		</div>
