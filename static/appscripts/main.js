@@ -1,5 +1,5 @@
 import {DragAndDrop, TextArea, Tabs, Progress, Table, Pages, ContainerElement} from "./jslibs/customElements.js"
-
+let fileArray
 // Setup Single Tab
 
 // Setup Worker
@@ -7,10 +7,19 @@ const worker = new Worker('./static/appscripts/model.js')
 const predMessage = document.querySelector(".message")
 const predTime = document.querySelector(".message.pred-time")
 worker.onmessage = message => {
-    const [{predClass, prob}, timeTaken] = message.data
+    if (typeof message.data === "number") {
+        progress.update(message.data)
+        return
+    }
+    const [modelOutput, timeTaken] = message.data
+    if (Array.isArray(modelOutput)) { // To be changed later
+        console.log(modelOutput)
+        // Render download button
+        return
+    }
     submit._reset()
-    predMessage.textContent = `${predClass} sentiment with a probability of ${prob}`
-    predMessage.classList.add(predClass.toLowerCase())
+    predMessage.textContent = `${predClasses} sentiment with a probability of ${maxProbs}`
+    predMessage.classList.add(predClasses.toLowerCase())
     predTime.textContent = `Prediction was successfully completed in ${timeTaken}s`
     predTime.classList.add('info')
 }
@@ -20,15 +29,15 @@ const textAreaElement = document.querySelector("textarea")
 const buttonElement = document.querySelector("button")
 const textArea  = new TextArea(textAreaElement, "Enter employee review here.", "Please enter an employee review!", "custom-text-area")
 const submit = new ContainerElement(buttonElement, "Submit", "custom-button")
-submit.element.addEventListener("click", () => predict())
+submit.element.addEventListener("click", () => predictSingle())
 
-let predict = () => {
+let predictSingle = () => {
     textArea.validate()
     predMessage.classList.remove('positive', 'neutral', 'negative')
     predTime.classList.remove('info')
     if (textArea.value) {
         submit._set('Please Wait...')
-        worker.postMessage(textArea.value)
+        worker.postMessage([textArea.value, null])
     }
 }
 
@@ -56,7 +65,7 @@ selectElement.addEventListener("change", () => page.pages[1]._showButton("nextBu
 let loadTable = async file => {
     if (!file) return 
     while (tableElement.hasChildNodes()) tableElement.removeChild(tableElement.firstChild)
-    const fileArray = await readFileAsArray(file)
+    fileArray = await readFileAsArray(file)
     const columns = fileArray.columns
     const table = new Table(tableElement, fileArray, columns, 5, true, "custom-table")
     select.clearChoices()
@@ -80,6 +89,11 @@ let readFileAsArray = async file => {
 // Setup Progress Bar Page
 const progressElement = document.querySelector(".progress")
 const progress = new Progress(progressElement, 0, "custom-progress")
+
+let predictBatch = () => {
+    worker.postMessage([fileArray, selectElement.value])
+    // console.log(fileArray)
+}
 // setInterval(() => {
 //     if (progress.value === 100) progress.reset()
 //     else progress.update(1)
@@ -96,20 +110,4 @@ page.pages[0]._showButtons(false)
 page.pages[1]._showButton("nextButton", false)
 page.pages[2]._showButton("backButton", false)
 page.pages[2]._showButton("nextButton", false)
-
-
-// function* splitIntoBatches(reviewsArray, batchSize = 64){
-//     for (let start = 0; start < reviewsArray.length; start += batchSize) {
-//         const end = start + batchSize
-//         yield reviewsArray.slice(start, end)
-//     }
-// }
-
-// test = ['I love my job', 'I hate my job', 'Life sucks', 'takes drugs']
-// batchGenerator = splitIntoBatches(reviewsArray=test, batchSize = 3)
-
-// for (batch of batchGenerator) {
-//     console.log(batch)
-// }
-
-// console.log(batchGenerator.next())
+page.pages[1].nextButton.element.addEventListener("click", () => predictBatch())

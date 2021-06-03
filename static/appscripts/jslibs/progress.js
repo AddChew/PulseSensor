@@ -9,7 +9,7 @@ export default class Progress extends BaseElement {
     }
 
     set(value) {
-        this.value = Math.min(value, 100)
+        this.value = Math.ceil(Math.min(value, 100))
         this.valueElement.element.style.width  = `${this.value}%`
     }
 
