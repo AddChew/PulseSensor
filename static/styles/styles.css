@@ -75,7 +75,21 @@ body {
     color: #04AA6D;
 }
 
+.progress {
+	min-height: 2rem;
+	border-radius: 2rem;
+}
+
 .no-animation {
 	-webkit-animation: none;
 	animation: none;
+}
+
+.progress-percent {
+	color: #155724;
+	margin: 0;
+	margin-bottom: 1rem;
+	font-size: 4rem;
+	font-weight: 700;
+	text-align: center;
 }

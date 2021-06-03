@@ -11,12 +11,13 @@ const predTimeSingle = document.querySelector(".message.pred-time.single")
 worker.onmessage = message => {
     if (typeof message.data === "number") {
         progress.update(message.data)
+        progressValueElement.textContent = `${progress.value}%`
         return
     }
     const [modelOutput, timeTaken] = message.data
     if (Array.isArray(modelOutput)) { 
         progress.valueElement.element.classList.add("no-animation")
-        predTimeBatch.textContent = `Prediction was successfully completed in ${timeTaken}s`
+        predTimeBatch.textContent = `Predictions were successfully completed in ${timeTaken}s`
         predTimeBatch.classList.add('info')
         download.element.classList.remove("custom-hidden")
         download.element.addEventListener("click", () => downloadPredictions(modelOutput))
@@ -95,6 +96,7 @@ let readFileAsArray = async file => {
 // Setup Progress Bar Page
 const progressElement = document.querySelector(".progress")
 const progress = new Progress(progressElement, 0, "custom-progress")
+const progressValueElement = document.querySelector(".progress-percent")
 const predTimeBatch = document.querySelector(".message.pred-time.batch")
 const downloadElement = document.querySelector(".download")
 const download = new ContainerElement(downloadElement, "Download", "custom-button", "custom-hidden")
@@ -122,5 +124,3 @@ page.pages[0]._showButtons(false)
 page.pages[1]._showButton("nextButton", false)
 page.pages[1].nextButton.element.addEventListener("click", () => worker.postMessage([fileArray, selectElement.value]))
 page.pages[2]._showButtons(false)
-
-// Fix progress bar
