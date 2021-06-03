@@ -6,7 +6,6 @@ body {
 
 .app-content {
 	width: 50%;
-	counter-reset: list-number; /**/
 }
 
 .custom-page {
@@ -20,8 +19,12 @@ body {
 	cursor: default;
 }
 
-.message.pred-time {
+.message.pred-time.single {
 	margin-top: .5rem;
+}
+
+.message.pred-time.batch {
+	margin-top: 1.75rem;
 }
 
 .negative {
@@ -70,4 +73,9 @@ body {
 .focus {
     font-weight: 600;
     color: #04AA6D;
+}
+
+.no-animation {
+	-webkit-animation: none;
+	animation: none;
 }

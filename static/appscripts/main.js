@@ -1,40 +1,46 @@
+import { BaseElement } from "./jslibs/baseClasses/baseElements.js"
 import {DragAndDrop, TextArea, Tabs, Progress, Table, Pages, ContainerElement} from "./jslibs/customElements.js"
 let fileArray
+
 // Setup Single Tab
 
 // Setup Worker
 const worker = new Worker('./static/appscripts/model.js')
 const predMessage = document.querySelector(".message")
-const predTime = document.querySelector(".message.pred-time")
+const predTimeSingle = document.querySelector(".message.pred-time.single")
 worker.onmessage = message => {
     if (typeof message.data === "number") {
         progress.update(message.data)
         return
     }
     const [modelOutput, timeTaken] = message.data
-    if (Array.isArray(modelOutput)) { // To be changed later
-        console.log(modelOutput)
-        // Render download button
+    if (Array.isArray(modelOutput)) { 
+        progress.valueElement.element.classList.add("no-animation")
+        predTimeBatch.textContent = `Prediction was successfully completed in ${timeTaken}s`
+        predTimeBatch.classList.add('info')
+        download.element.classList.remove("custom-hidden")
+        download.element.addEventListener("click", () => downloadPredictions(modelOutput))
         return
     }
     submit._reset()
+    const {predClasses, maxProbs} = modelOutput
     predMessage.textContent = `${predClasses} sentiment with a probability of ${maxProbs}`
     predMessage.classList.add(predClasses.toLowerCase())
-    predTime.textContent = `Prediction was successfully completed in ${timeTaken}s`
-    predTime.classList.add('info')
+    predTimeSingle.textContent = `Prediction was successfully completed in ${timeTaken}s`
+    predTimeSingle.classList.add('info')
 }
 
 // Setup Text Area
 const textAreaElement = document.querySelector("textarea")
-const buttonElement = document.querySelector("button")
+const submitElement = document.querySelector(".submit")
 const textArea  = new TextArea(textAreaElement, "Enter employee review here.", "Please enter an employee review!", "custom-text-area")
-const submit = new ContainerElement(buttonElement, "Submit", "custom-button")
+const submit = new ContainerElement(submitElement, "Submit", "custom-button")
 submit.element.addEventListener("click", () => predictSingle())
 
 let predictSingle = () => {
     textArea.validate()
     predMessage.classList.remove('positive', 'neutral', 'negative')
-    predTime.classList.remove('info')
+    predTimeSingle.classList.remove('info')
     if (textArea.value) {
         submit._set('Please Wait...')
         worker.postMessage([textArea.value, null])
@@ -89,15 +95,21 @@ let readFileAsArray = async file => {
 // Setup Progress Bar Page
 const progressElement = document.querySelector(".progress")
 const progress = new Progress(progressElement, 0, "custom-progress")
+const predTimeBatch = document.querySelector(".message.pred-time.batch")
+const downloadElement = document.querySelector(".download")
+const download = new ContainerElement(downloadElement, "Download", "custom-button", "custom-hidden")
 
-let predictBatch = () => {
-    worker.postMessage([fileArray, selectElement.value])
-    // console.log(fileArray)
+let downloadPredictions = modelOutput => {
+    const csv = d3.csvFormat(modelOutput)
+    const csvBlob = new Blob([csv], {type: 'text/csv;'})
+    const csvURL = URL.createObjectURL(csvBlob)
+    const downloadLink = new BaseElement("a", "download-link")
+    downloadLink.element.setAttribute("href", csvURL)
+    downloadLink.element.setAttribute("download", "Predicted Sentiments.csv")
+    download.element.after(downloadLink.element)
+    downloadLink.element.click()
+    downloadLink.element.remove()
 }
-// setInterval(() => {
-//     if (progress.value === 100) progress.reset()
-//     else progress.update(1)
-// }, 100)
 
 // Setup Tabs
 const tabContents = document.querySelectorAll("[data-tabs]")
@@ -108,6 +120,7 @@ const pageElements = document.querySelectorAll("[data-pages]")
 const page = new Pages(...pageElements)
 page.pages[0]._showButtons(false)
 page.pages[1]._showButton("nextButton", false)
-page.pages[2]._showButton("backButton", false)
-page.pages[2]._showButton("nextButton", false)
-page.pages[1].nextButton.element.addEventListener("click", () => predictBatch())
+page.pages[1].nextButton.element.addEventListener("click", () => worker.postMessage([fileArray, selectElement.value]))
+page.pages[2]._showButtons(false)
+
+// Fix progress bar
