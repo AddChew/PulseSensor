@@ -75,7 +75,7 @@ let loadTable = async file => {
     fileArray = await readFileAsArray(file)
     const columns = fileArray.columns
     const table = new Table(tableElement, fileArray, columns, 5, true, "custom-table")
-    select.clearChoices()
+    select.clearStore()
     select.setChoices(columns.map(column => ({value: column, label: column})))
 }
 
