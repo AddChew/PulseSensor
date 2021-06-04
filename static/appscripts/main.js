@@ -77,6 +77,7 @@ let loadTable = async file => {
     const table = new Table(tableElement, fileArray, columns, 5, true, "custom-table")
     select.clearStore()
     select.setChoices(columns.map(column => ({value: column, label: column})))
+    page.pages[1]._showButton("nextButton", selectElement.value)
 }
 
 let readFileAsURL = file => {
