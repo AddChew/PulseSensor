@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- https://www.designsystem.tech.gov.sg/docs/installation/ -->
+    <link href="{{ url_for('static', filename = 'styles/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename = 'styles/sgds.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename = 'styles/styles.css') }}" rel="stylesheet">
+
+    <!-- Include app icon -->
+    <link rel="shortcut icon" href="{{ url_for('static', filename = 'images/favicon.ico') }}">
+
+    <!-- Include jQuery -->
+    <script src="{{ url_for('static', filename = 'appscripts/jquery-3.5.1.min.js') }}"></script>
+    <script src="{{ url_for('static', filename = 'appscripts/bootstrap.bundle.min.js') }}"></script>
+
+    <!-- https://d3js.org/ -->
+    <script src="{{ url_for('static', filename = 'appscripts/d3.v7.min.js') }}"></script>
+
+    <!-- Include my custom scripts -->
+    <script src="{{ url_for('static', filename = 'appscripts/tabs.js') }}"></script>
+    <script src="{{ url_for('static', filename = 'appscripts/upload.js') }}"></script>
+    
+    <title>Pulse Sensor</title>
+
+    <!-- To remove onsubmit when done later -->
+    <!-- <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const singleInput = document.querySelector(".single")
+            singleInput.addEventListener("submit", evt => {
+                evt.preventDefault()
+                console.log("Hello")
+            })
+        })
+    </script> -->
+</head>
+<body>
+    <div class="flex-wrapper">
+        <div>
+            <div class="sgds-masthead">
+                <a>
+                    <span class="sgds-icon sgds-icon-sg-crest"></span>
+                    <span class="is-text">A Singapore Government Agency Application</span>
+                </a>
+            </div>
+
+            <nav class="sgds-navbar" role="navigation">
+                <div class="sgds-navbar-brand">
+                    <a class="sgds-navbar-item is-active is-uppercase">
+                        Pulse Sensor
+                    </a>
+                </div>
+            </nav>
+            
+            <!-- {% block flash %}{% endblock %} -->
+
+            <section class="sgds-section">
+                <div class="container p-5">
+                    <div class="sgds-tabs is-boxed">
+                        <ul class="no-margin" role="tablist">
+                            <li class="is-active">
+                                <a data-tab="#single" role="tab">
+                                    <i class="sgds-icon sgds-icon-edit padding--right--sm"></i>
+                                    Single
+                                </a>
+                            </li>
+                            <li>
+                                <a data-tab="#batch" role="tab">
+                                    <i class="sgds-icon sgds-icon-upload padding--right--sm"></i>
+                                    Batch
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+        
+                    <div class="row tab-content-container" id="single">
+                        <div class="col">
+                            <div class="tab-content">
+
+                                <form class="single">
+                                    <div class="field">
+                                        <div class="control">
+                                          <textarea class="textarea" placeholder="Enter employee review here." required></textarea>
+                                          <input class="sgds-button is-link" type="submit" value="Submit">
+                                        </div>
+                                    </div>
+                                </form>
+
+                                <div class="alert alert-primary">
+                                    A simple primary alert—check it out!
+                                </div> 
+
+                                <div class="alert alert-secondary">
+                                    A simple primary alert—check it out!
+                                </div> 
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row tab-content-container hidden" id="batch">
+                        <div class="col">
+                            <div class="tab-content">
+
+                                <div class="field">
+                                    <div class="custom-file">
+                                        <input type="file" class="custom-file-input" id="customFile" accept=".csv" required>
+                                        <label class="custom-file-label" for="customFile" style="text-overflow: ellipsis;">Choose file</label>
+                                    </div>
+                                </div>
+
+                                <div class="field">
+                                    <footer class="small text-left">
+                                        Maximum upload file size: 2 MB.
+                                    </footer>
+                                </div>
+
+                                <div class="table-container">
+                                    <table class="table table-h hidden">
+                                        <thead>
+                                            <tr></tr>
+                                        </thead>
+                                        <tbody></tbody>
+                                    </table>
+                                </div>
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+        
+        <footer class='sgds-footer'>
+            <div class="top-section">
+                <div class="sgds-container is-fluid">
+                    <div class="row">
+                        <div class="col">
+                            <img class="ica-logo" src="{{ url_for('static', filename = 'images/ica-logo.png') }}" alt="Immigration & Checkpoints Authority Logo">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bottom-section">
+                <div class="sgds-container is-fluid">
+                    <div class="row is-multiline">
+                        <div class="col is-12 has-text-left-desktop has-text-left-tablet has-text-left-mobile">
+                            <p> © Information Management Division | Data Management & Analytics Branch</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+</body>
+</html>
