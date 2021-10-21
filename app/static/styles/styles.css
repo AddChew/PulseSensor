@@ -9,7 +9,7 @@ a.sgds-navbar-item.is-active {
 }
 
 /* Elements with #f5f5f5 background */
-.flex-wrapper, textarea, .custom-file-label {
+.flex-wrapper, textarea, .custom-file-label, .custom-select {
     background-color: #f5f5f5 !important;
 }
 
@@ -24,7 +24,7 @@ a.sgds-navbar-item.is-active {
 }
 
 /* Elements with 1.5rem bottom margin */
-textarea, .tab-content form:not(:last-child) {
+textarea, .tab-content form:not(:last-child), .max-upload, .form-group {
     margin-bottom: 1.5rem;
 }
 
@@ -70,7 +70,7 @@ textarea, .tab-content form:not(:last-child) {
     display: None !important;
 }
 
-/* Style Send Job Button */
+/* Style Submit Button */
 .sgds-button {
     font-size: 1rem;
     border-radius: .25rem;
@@ -85,6 +85,7 @@ textarea, .tab-content form:not(:last-child) {
 
 .table {
     font-size: 1rem;
+    border-top: 1px solid #d6d6d6;
 }
 
 
