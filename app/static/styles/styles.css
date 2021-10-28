@@ -23,8 +23,13 @@ a.sgds-navbar-item.is-active {
     margin-bottom: 0rem !important;
 }
 
+/* Elements with 1.5rem top margin */
+.alert:first-of-type {
+    margin-top: 1.5rem;
+}
+
 /* Elements with 1.5rem bottom margin */
-textarea, .tab-content form:not(:last-child), .max-upload, .form-group {
+textarea, .max-upload, .form-group {
     margin-bottom: 1.5rem;
 }
 
@@ -67,7 +72,7 @@ textarea, .tab-content form:not(:last-child), .max-upload, .form-group {
 
 /* Hide elements */
 .hidden{
-    display: None !important;
+    display: none !important;
 }
 
 /* Style Submit Button */
@@ -88,14 +93,22 @@ textarea, .tab-content form:not(:last-child), .max-upload, .form-group {
     border-top: 1px solid #d6d6d6;
 }
 
+.alert {
+    display: none;
+}
+
+.alert-active {
+    display: block;
+}
+
 
 /* Stop here */
-.alert.alert-success {
+/* .alert.alert-success {
     margin-bottom: 0rem;
 }
 
 /* Style progress bar */
-.sgds-progress.is-primary {
+/* .sgds-progress.is-primary {
     margin-bottom: .5rem;
 }
 
@@ -114,4 +127,4 @@ textarea, .tab-content form:not(:last-child), .max-upload, .form-group {
 .sgds-modal-card-title {
     font-size: 1.125rem;
     font-weight: bold;
-}
+}  */

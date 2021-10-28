@@ -8,8 +8,8 @@ document.addEventListener("DOMContentLoaded", () => {
     // Add event listener to file input
     bindEvent(".custom-file-input", "change", renderTable)
 
-    // // Add event listeners to submit button
-    // bindEvent(".send-job", "submit", evt => validateDropdown(evt))
+    // Add event listener to submit button
+    bindEvent(".batch", "submit", validateDropdown)
 
     // // Add event listeners to close and ok buttons on modal
     // const modal = document.querySelector(".sgds-modal")
@@ -24,8 +24,10 @@ let bindEvent = (className, type, func) => {
 
 // Function to toggle element visibility
 let toggleVisibility = (className, condition) => {
-    const element = document.querySelector(className)
-    if (document.contains(element)) element.classList.toggle("hidden", condition)
+    const elements = document.querySelectorAll(className)
+    if (elements.length) {
+        elements.forEach(element => element.classList.toggle("hidden", condition))
+    }
 }
 
 // Function to read the uploaded csv file
@@ -109,8 +111,8 @@ let renderTable = async () => {
     {   
         headers = file.headers
 
-        // // Populate dropdowns
-        // populateDropdowns(null, headers)
+        // Populate dropdown
+        populateDropdown(headers)
 
         // Populate header
         populateHeaders(headers)
@@ -120,69 +122,37 @@ let renderTable = async () => {
             populateRow(row)
         })
     }
-    // toggleVisibility(".form-group.form-inline", !file)
+    toggleVisibility(".form-group", !file)
     toggleVisibility("table", !file)
 }
 
-// // Function to populate dropdown list
-// let populateDropdown = (selectElement, headers) => {
-//     headers.forEach(header => {
-//         const option = document.createElement("option")
-//         option.setAttribute("value", header)
-//         option.appendChild(document.createTextNode(header))
-//         selectElement.appendChild(option)
-//     })    
-// }
+// Function to populate dropdown list
+let populateDropdown = headers => {
+    const dropdown = document.querySelector(".custom-select")
+    const options = dropdown.querySelectorAll("option")
 
-// // Function to populate all the dropdown lists
-// let populateDropdowns = (evt, headers) => {
-//     const feedback = document.querySelector(".feedback")
-//     const field1 = document.querySelector(".field1")
-//     const field2 = document.querySelector(".field2")
+    // Reset selected option
+    dropdown.value = ""
+    
+    options.forEach(option => {
+        if (option.value) option.remove()
+    })
 
-//     const feedback_value = feedback.value
-//     const field1_value = field1.value
-//     const field2_value = field2.value
+    headers.forEach(header => {
+        const option = document.createElement("option")
+        option.setAttribute("value", header)
+        option.appendChild(document.createTextNode(header))
+        dropdown.appendChild(option)
+    })
+}
 
-//     document.querySelectorAll("select").forEach(select => {
-//         if (evt && (evt.target.name === select.name || (select.value != evt.target.value && select.value))) return
-//         if (!evt) select.addEventListener("change", evt => populateDropdowns(evt, headers))
-//         select.querySelectorAll("option").forEach(option => {
-//             if (option.value != "") option.remove()
-//         })
-//         switch(select.name) {
-//             case "feedback":
-//                 feedback.value = (feedback_value != field1_value && feedback_value != field2_value) ? feedback_value : ""
-//                 populateDropdown(select, headers.filter(header => header != field1.value && header != field2.value))
-//                 break
-//             case "field1":
-//                 field1.value = (field1_value != feedback_value && field1_value != field2_value) ? field1_value : ""
-//                 populateDropdown(select, headers.filter(header => header != feedback.value && header != field2.value))
-//                 break
-//             default:
-//                 field2.value = (field2_value != feedback_value && field2_value != field1_value) ? field2_value : ""
-//                 populateDropdown(select, headers.filter(header => header != field1.value && header != feedback.value))
-//         }
-//     })
-// }
-
-// // Validate selected dropdown options
-// let validateDropdown = evt => {
-//     const selections = Array.from(document.querySelectorAll("select")).map(select => select.value)
-//     const filled_selections = selections.filter(selection => selection)
-
-//     // Check for duplicates
-//     if (new Set(filled_selections).size != filled_selections.length) {
-//         alert("Duplicate selections detected!")
-//         return evt.preventDefault()
-//     }
-
-//     // Check that all the filled selections are in headers
-//     if (filled_selections.filter(selection => headers.includes(selection)).length != filled_selections.length) {
-//         alert("Invalid selection!")
-//         return evt.preventDefault()
-//     }
-// }
+// Validate selected dropdown option
+let validateDropdown = () => {
+    const dropdown = document.querySelector(".custom-select")
+    if (!headers.includes(dropdown.value)) {
+        alert("Invalid selection!")
+    }
+}
 
 // // Function to configure the close and ok buttons
 // let configureCloseButtons = modal => {

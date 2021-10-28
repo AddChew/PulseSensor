@@ -23,19 +23,12 @@
     <!-- Include my custom scripts -->
     <script src="{{ url_for('static', filename = 'appscripts/tabs.js') }}"></script>
     <script src="{{ url_for('static', filename = 'appscripts/upload.js') }}"></script>
+    <script src="{{ url_for('static', filename = 'appscripts/main.js') }}" defer></script>
+
+    <!-- Include script for flaskwebgui -->
+    <!-- <script src="{{ url_for('static', filename = 'appscripts/stop_server.js') }}"></script> -->
     
     <title>Pulse Sensor</title>
-
-    <!-- To remove onsubmit when done later -->
-    <!-- <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            const singleInput = document.querySelector(".single")
-            singleInput.addEventListener("submit", evt => {
-                evt.preventDefault()
-                console.log("Hello")
-            })
-        })
-    </script> -->
 </head>
 <body>
     <div class="flex-wrapper">
@@ -61,13 +54,13 @@
                 <div class="container p-5">
                     <div class="sgds-tabs is-boxed">
                         <ul class="no-margin" role="tablist">
-                            <li>
+                            <li class="is-active">
                                 <a data-tab="#single" role="tab">
                                     <i class="sgds-icon sgds-icon-edit padding--right--sm"></i>
                                     Single
                                 </a>
                             </li>
-                            <li class="is-active">
+                            <li>
                                 <a data-tab="#batch" role="tab">
                                     <i class="sgds-icon sgds-icon-upload padding--right--sm"></i>
                                     Batch
@@ -76,7 +69,7 @@
                         </ul>
                     </div>
         
-                    <div class="row tab-content-container hidden" id="single">
+                    <div class="row tab-content-container" id="single">
                         <div class="col">
                             <div class="tab-content">
 
@@ -89,7 +82,7 @@
                                     </div>
                                 </form>
 
-                                <div class="alert alert-primary">
+                                <div class="alert">
                                     A simple primary alert—check it out!
                                 </div> 
 
@@ -101,11 +94,11 @@
                         </div>
                     </div>
 
-                    <div class="row tab-content-container" id="batch">
+                    <div class="row tab-content-container hidden" id="batch">
                         <div class="col">
                             <div class="tab-content">
                                 
-                                <form>
+                                <form class="batch">
                                     <div class="field">
                                         <div class="custom-file">
                                             <input type="file" class="custom-file-input" id="customFile" accept=".csv" required>
@@ -117,14 +110,14 @@
                                         Maximum upload file size: 2 MB.
                                     </footer>
                                     
-                                    <div class="form-group">
+                                    <div class="form-group hidden">
                                         <label for="text-column">Column containing the text for analysis</label>
                                         <select class="custom-select" id="text-column" required>
                                             <option selected disabled value="">Choose...</option>
                                         </select>
                                     </div>
             
-                                    <div class="form-group">
+                                    <div class="form-group hidden">
                                         <input class="sgds-button is-link" type="submit" value="Submit">
                                     </div>
                                 </form>
