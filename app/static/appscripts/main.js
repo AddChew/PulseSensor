@@ -1,15 +1,58 @@
-let fileArray
+// Sentiment to alert mapping
 const alertMap = {
     "Positive": "alert-success",
     "Neutral": "alert-primary",
     "Negative": "alert-danger",
 }
-const submit = document.querySelector("input[type='submit']")
 
-// Setup worker thread
-const worker = new Worker("static/appscripts/worker.js")
+// Forms
+const singleForm = document.querySelector(".single")
+const batchForm = document.querySelector(".batch")
+
+// Submit buttons
+const singleSubmit = singleForm.querySelector("input[type='submit']")
+const batchSubmit = batchForm.querySelector("input[type='submit']")
+
+// Alert messages
 const prediction = document.querySelector(".alert")
 const predictionTime = document.querySelector(".alert-secondary")
+
+// Function to toggle submit button value
+let toggleButtonValue = submit => {
+    switch(submit.value) {
+        case "Submit":
+            submit.value = "Please Wait..."
+            break
+        default:
+            submit.value = "Submit"
+    }
+}
+
+// Function to process single prediction output
+let singlePredOutput = (modelOutput, timeTaken) => {
+    const {predClasses, maxProbs} = modelOutput
+    prediction.textContent = `${predClasses} sentiment with a probability of ${maxProbs}`
+    prediction.classList.replace("hidden", alertMap[predClasses])
+
+    predictionTime.textContent = `Prediction was successfully completed in ${timeTaken}s`
+    predictionTime.classList.remove("hidden")
+    toggleButtonValue(singleSubmit)
+}
+
+// Function to get single prediction
+let getSinglePred = () => {
+    const textAreaInput = document.querySelector("textarea").value
+
+    prediction.classList.remove("alert-success", "alert-primary", "alert-danger")
+    prediction.classList.add("hidden")
+    predictionTime.classList.add("hidden")
+
+    toggleButtonValue(singleSubmit)
+    worker.postMessage([textAreaInput, null])   
+}
+
+// Setup worker
+const worker = new Worker("static/appscripts/worker.js")
 worker.onmessage = message => {
     // if (typeof message.data === "number") {
     //     progress.update(message.data)
@@ -25,88 +68,20 @@ worker.onmessage = message => {
     //     download.element.addEventListener("click", () => downloadPredictions(modelOutput))
     //     return
     // }
-    const {predClasses, maxProbs} = modelOutput
-    prediction.textContent = `${predClasses} sentiment with a probability of ${maxProbs}`
-    prediction.classList.add(alertMap[predClasses], "alert-active")
-    predictionTime.textContent = `Prediction was successfully completed in ${timeTaken}s`
-    predictionTime.classList.add("alert-active")
-    toggleButtonValue()
+    singlePredOutput(modelOutput, timeTaken)
 }
 
-// Function to toggle submit button value
-let toggleButtonValue = () => {
-    switch(submit.value) {
-        case "Submit":
-            submit.value = "Please Wait..."
-            break
-        default:
-            submit.value = "Submit"
-    }
-}
+// Add event listeners to forms
+singleForm.addEventListener("submit", evt => {
+    evt.preventDefault()
+    getSinglePred()
+})
 
-let predictSingle = () => {
-    const textAreaInput = document.querySelector("textarea").value
-    prediction.classList.remove("alert-success", "alert-primary", "alert-danger")
-    predictionTime.classList.remove("alert-active")
-    toggleButtonValue()
-    worker.postMessage([textAreaInput, null])
-} 
-
-const forms = document.querySelectorAll("form")
-forms.forEach(form => {
-    form.addEventListener("submit", evt => {
-        evt.preventDefault()
-        predictSingle()
-    })
+batchForm.addEventListener("submit", evt => {
+    evt.preventDefault()
 })
 
 
-
-// Setup Batch Tab
-
-// // Setup File Upload Page
-// const fileReader = new FileReader()
-// const dropAreaElement = document.querySelector("input")
-// const dropArea = new DragAndDrop(dropAreaElement, ".csv")
-// dropArea.element.addEventListener("change", () => {
-//     page.pages[0]._showButtons(dropArea.file)
-//     loadTable(dropArea.file)
-// })
-// dropArea.dropAreaElement.element.addEventListener("drop", () => {
-//     page.pages[0]._showButtons(dropArea.file)
-//     loadTable(dropArea.file)
-// })
-
-// // Setup Table Page
-// const selectElement = document.querySelector("select")
-// const tableElement = document.querySelector("table")
-// const select = new Choices(selectElement, {shouldSort: false})
-// selectElement.addEventListener("change", () => page.pages[1]._showButton("nextButton", selectElement.value))
-
-// let loadTable = async file => {
-//     if (!file) return 
-//     while (tableElement.hasChildNodes()) tableElement.removeChild(tableElement.firstChild)
-//     fileArray = await readFileAsArray(file)
-//     const columns = fileArray.columns
-//     const table = new Table(tableElement, fileArray, columns, 5, true, "custom-table")
-//     select.clearStore()
-//     select.setChoices(columns.map(column => ({value: column, label: column})))
-//     page.pages[1]._showButton("nextButton", selectElement.value)
-// }
-
-// let readFileAsURL = file => {
-//     return new Promise((resolve, reject) => {
-//         fileReader.onload = () => resolve(fileReader.result)
-//         fileReader.onerror = () => reject
-//         fileReader.readAsDataURL(file)
-//     })
-// }
-
-// let readFileAsArray = async file => {
-//     const fileURL = await readFileAsURL(file)
-//     const fileArray = await d3.csv(fileURL)
-//     return fileArray
-// }
 
 // // Setup Progress Bar Page
 // const progressElement = document.querySelector(".progress")

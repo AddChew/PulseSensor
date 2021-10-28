@@ -72,7 +72,6 @@
                     <div class="row tab-content-container" id="single">
                         <div class="col">
                             <div class="tab-content">
-
                                 <form class="single">
                                     <div class="field">
                                         <div class="control">
@@ -82,22 +81,15 @@
                                     </div>
                                 </form>
 
-                                <div class="alert">
-                                    A simple primary alert—check it out!
-                                </div> 
-
-                                <div class="alert alert-secondary">
-                                    A simple primary alert—check it out!
-                                </div> 
-
+                                <div class="alert hidden"></div> 
+                                <div class="alert alert-secondary hidden"></div> 
                             </div>
                         </div>
                     </div>
 
                     <div class="row tab-content-container hidden" id="batch">
                         <div class="col">
-                            <div class="tab-content">
-                                
+                            <div class="tab-content upload hidden">
                                 <form class="batch">
                                     <div class="field">
                                         <div class="custom-file">
@@ -130,7 +122,24 @@
                                         <tbody></tbody>
                                     </table>
                                 </div>
+                            </div>
 
+                            <div class="tab-content progress-update">
+                                <div class="sgds-section">
+                                    <p class="h1 text-center progress-text">0%</p>
+                                    <progress class="sgds-progress is-link" value="0" max="100"></progress> 
+                                    <p class="text-center">Please do not close the application.</p>    
+                                </div>
+                            </div>
+
+                            <div class="tab-content download">
+                                <div class="sgds-section">
+                                    <p class="text-center ready">Your <strong>Sentiment Analysis</strong> results are ready for download.</p>
+                                    <div class="d-flex justify-content-center">
+                                        <button class="sgds-button is-link">Download</button>
+                                        <button class="sgds-button is-link is-outlined">Back</button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>

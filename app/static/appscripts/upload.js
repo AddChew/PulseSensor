@@ -1,5 +1,5 @@
 // Declare global variables
-let headers
+let headers, parsedContent
 const fileSizeLimit = 2 * 1024 * 1024
 
 // Bind events once page loads finish
@@ -10,10 +10,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Add event listener to submit button
     bindEvent(".batch", "submit", validateDropdown)
-
-    // // Add event listeners to close and ok buttons on modal
-    // const modal = document.querySelector(".sgds-modal")
-    // configureCloseButtons(modal)
 })
 
 // Function to bind function to element on change
@@ -55,7 +51,7 @@ let parseFile = async () => {
     if (ext === "csv" && !exceedLimit)
     {
         const fileContent = await readFile(file)
-        const parsedContent = await d3.csv(fileContent)
+        parsedContent = await d3.csv(fileContent)
         return {
             headers: parsedContent.columns, 
             data: parsedContent.slice(0, 5)
@@ -153,13 +149,3 @@ let validateDropdown = () => {
         alert("Invalid selection!")
     }
 }
-
-// // Function to configure the close and ok buttons
-// let configureCloseButtons = modal => {
-//     const closeButtons = document.querySelectorAll(".close-modal")
-//     closeButtons.forEach(closeButton => {
-//         closeButton.addEventListener("click", () => {
-//             modal.classList.remove("is-active")
-//         })
-//     })
-// }

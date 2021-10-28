@@ -93,22 +93,8 @@ textarea, .max-upload, .form-group {
     border-top: 1px solid #d6d6d6;
 }
 
-.alert {
-    display: none;
-}
-
-.alert-active {
-    display: block;
-}
-
-
-/* Stop here */
-/* .alert.alert-success {
-    margin-bottom: 0rem;
-}
-
 /* Style progress bar */
-/* .sgds-progress.is-primary {
+.sgds-progress.is-link {
     margin-bottom: .5rem;
 }
 
@@ -116,15 +102,17 @@ textarea, .max-upload, .form-group {
     padding-bottom: .5rem;
 }
 
+/* Style ready message */
 .ready {
     padding-bottom: 1.5rem;
 }
 
-.d-flex form:not(:last-child) {
+/* Style download page buttons */
+.d-flex button:not(:last-child) {
     margin-right: .5rem;
 }
 
-.sgds-modal-card-title {
-    font-size: 1.125rem;
-    font-weight: bold;
-}  */
+/* Stop here */
+/* .alert.alert-success {
+    margin-bottom: 0rem;
+}
