@@ -24,12 +24,12 @@ a.sgds-navbar-item.is-active {
 }
 
 /* Elements with 1.5rem top margin */
-.alert:first-of-type {
+.alert:first-of-type, .progress-text, .ready {
     margin-top: 1.5rem;
 }
 
 /* Elements with 1.5rem bottom margin */
-textarea, .max-upload, .form-group {
+textarea, .max-upload, .form-group, .ready {
     margin-bottom: 1.5rem;
 }
 
@@ -102,17 +102,12 @@ textarea, .max-upload, .form-group {
     padding-bottom: .5rem;
 }
 
-/* Style ready message */
-.ready {
-    padding-bottom: 1.5rem;
-}
-
 /* Style download page buttons */
 .d-flex button:not(:last-child) {
     margin-right: .5rem;
 }
 
-/* Stop here */
-/* .alert.alert-success {
-    margin-bottom: 0rem;
+/* Style notification alert messages */
+header.alert.alert-success {
+    margin: 0rem;
 }

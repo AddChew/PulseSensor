@@ -48,8 +48,6 @@
                 </div>
             </nav>
             
-            <!-- {% block flash %}{% endblock %} -->
-
             <section class="sgds-section">
                 <div class="container p-5">
                     <div class="sgds-tabs is-boxed">
@@ -124,7 +122,8 @@
                                 </div>
                             </div>
 
-                            <div class="tab-content progress-update">
+                            <div class="tab-content progress-update hidden">
+                                <header class="alert alert-success border text-center">Job Sent!</header>
                                 <div class="sgds-section">
                                     <p class="h1 text-center progress-text">0%</p>
                                     <progress class="sgds-progress is-link" value="0" max="100"></progress> 
@@ -133,6 +132,7 @@
                             </div>
 
                             <div class="tab-content download">
+                                <header class="alert alert-success border text-center">Job Completed!</header>
                                 <div class="sgds-section">
                                     <p class="text-center ready">Your <strong>Sentiment Analysis</strong> results are ready for download.</p>
                                     <div class="d-flex justify-content-center">

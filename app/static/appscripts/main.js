@@ -5,6 +5,9 @@ const alertMap = {
     "Negative": "alert-danger",
 }
 
+// Batch Tab
+const batchTab = document.querySelector("li:nth-child(2)")
+
 // Forms
 const singleForm = document.querySelector(".single")
 const batchForm = document.querySelector(".batch")
@@ -12,6 +15,12 @@ const batchForm = document.querySelector(".batch")
 // Submit buttons
 const singleSubmit = singleForm.querySelector("input[type='submit']")
 const batchSubmit = batchForm.querySelector("input[type='submit']")
+
+// Back button
+const back = document.querySelector("button.is-outlined")
+
+// Download button
+const download = document.querySelector("button.is-link")
 
 // Alert messages
 const prediction = document.querySelector(".alert")
@@ -51,6 +60,13 @@ let getSinglePred = () => {
     worker.postMessage([textAreaInput, null])   
 }
 
+// Function to navigate back to file upload page in batch tab
+let navigateBack = () => {
+    location.reload()
+    console.log(batchTab)
+    batchTab.click()
+}
+
 // Setup worker
 const worker = new Worker("static/appscripts/worker.js")
 worker.onmessage = message => {
@@ -71,7 +87,7 @@ worker.onmessage = message => {
     singlePredOutput(modelOutput, timeTaken)
 }
 
-// Add event listeners to forms
+// Add event listeners to forms and buttons
 singleForm.addEventListener("submit", evt => {
     evt.preventDefault()
     getSinglePred()
@@ -80,6 +96,8 @@ singleForm.addEventListener("submit", evt => {
 batchForm.addEventListener("submit", evt => {
     evt.preventDefault()
 })
+
+back.addEventListener("click", navigateBack)
 
 
 
