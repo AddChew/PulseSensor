@@ -5,7 +5,7 @@ Pulse Sensor is a client side single page web application, providing sentiment a
 
 #### Run from web browser
 This method does not require any prior setup (i.e. you do not need to have Python or Anaconda installed on your computer).
-1. Navigate to [Pulse Sensor](https://pulse-sensor-1.herokuapp.com/).
+1. Navigate to [Pulse Sensor](https://the-pulse-sensor.herokuapp.com/).
 
 #### Run from source code
 This set of instructions assumes that you already have anaconda prompt installed on your computer.
@@ -30,7 +30,7 @@ pip install -r requirements.txt
 ## Usage Instructions
 
 #### Run from web browser
-1. Batch: Upload CSV file containing the text that you want to analyse and follow the on screen instructions. You can test [Pulse Sensor](https://pulse-sensor-1.herokuapp.com/) with the following test files found [here](https://drive.google.com/drive/folders/1YJgSY8qjgpMvULbsq-8tcM8EYvYLdkWJ?usp=sharing).
+1. Batch: Upload CSV file containing the text that you want to analyse and follow the on screen instructions. You can test [Pulse Sensor](https://the-pulse-sensor.herokuapp.com/) with the following test files found [here](https://drive.google.com/drive/folders/1YJgSY8qjgpMvULbsq-8tcM8EYvYLdkWJ?usp=sharing).
 
 #### Run from source code
 1. Navigate to app folder in PulseSensor-kiosk folder by running the following command in anaconda prompt:
