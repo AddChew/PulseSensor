@@ -5,6 +5,10 @@ const alertMap = {
     "Negative": "alert-danger",
 }
 
+// Modal and its close buttons
+const modal = document.querySelector(".sgds-modal")
+const closeButtons = document.querySelectorAll(".close-modal")
+
 // Batch Tab
 const batchTab = document.querySelector("li:nth-child(2)")
 
@@ -60,11 +64,34 @@ let getSinglePred = () => {
     worker.postMessage([textAreaInput, null])   
 }
 
-// Function to navigate back to file upload page in batch tab
+// Function to configure the close and ok buttons
+let configureCloseButtons = () => {
+    closeButtons.forEach(closeButton => {
+        closeButton.addEventListener("click", () => {
+            modal.classList.remove("is-active")
+            sessionStorage.setItem("shown-warning", "true")
+        })
+    })
+}
+
+// Functions to refresh page
 let navigateBack = () => {
+    sessionStorage.setItem("reload", "true")
     location.reload()
-    console.log(batchTab)
-    batchTab.click()
+}
+
+// Function to load page
+let loadPage = () => {
+    const shown_warning = sessionStorage.getItem("shown-warning")
+    const reload = sessionStorage.getItem("reload")
+
+    if (shown_warning) modal.classList.remove("is-active")
+    else configureCloseButtons()
+
+    if (reload) {
+        batchTab.click()
+        sessionStorage.removeItem("reload")
+    }
 }
 
 // Setup worker
@@ -98,6 +125,7 @@ batchForm.addEventListener("submit", evt => {
 })
 
 back.addEventListener("click", navigateBack)
+document.addEventListener("DOMContentLoaded", loadPage)
 
 
 
