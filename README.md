@@ -1,4 +1,4 @@
-# Pulse Sensor (Kiosk)
+# Pulse Sensor (Heroku)
 Pulse Sensor is a client side single page web application, providing sentiment analysis services for employee pulse surveys.
 
 ## Usage Instructions
