@@ -16,6 +16,11 @@ const batchTab = document.querySelector("li:nth-child(2)")
 const singleForm = document.querySelector(".single")
 const batchForm = document.querySelector(".batch")
 
+// Batch Pages
+const uploadPage = document.querySelector(".upload")
+const progressPage = document.querySelector(".progress-update")
+const downloadPage = document.querySelector("download")
+
 // Submit buttons
 const singleSubmit = singleForm.querySelector("input[type='submit']")
 const batchSubmit = batchForm.querySelector("input[type='submit']")
@@ -47,7 +52,7 @@ let singlePredOutput = (modelOutput, timeTaken) => {
     prediction.textContent = `${predClasses} sentiment with a probability of ${maxProbs}`
     prediction.classList.replace("hidden", alertMap[predClasses])
 
-    predictionTime.textContent = `Prediction was successfully completed in ${timeTaken}s`
+    predictionTime.textContent = `Prediction was successfully completed in ${formatTime(timeTaken)}`
     predictionTime.classList.remove("hidden")
     toggleButtonValue(singleSubmit)
 }
@@ -74,6 +79,12 @@ let configureCloseButtons = () => {
     })
 }
 
+// Function to navigate to progress page
+let loadProgress = () => {
+    uploadPage.classList.add("hidden")
+    progressPage.classList.remove("hidden")
+}
+
 // Functions to refresh page
 let navigateBack = () => {
     sessionStorage.setItem("reload", "true")
@@ -92,6 +103,22 @@ let loadPage = () => {
         batchTab.click()
         sessionStorage.removeItem("reload")
     }
+}
+
+// Function to format time
+let formatTime = timeTaken => {
+    const hours = ~~(timeTaken / 3600)
+    const minutes = ~~((timeTaken % 3600) / 60) 
+    const seconds = timeTaken % 60
+
+    let formattedTime = hours ? `${hours}hr ${minutes}min ${Math.ceil(seconds)}s` : `${minutes}min ${seconds}s`
+    if (formattedTime.includes("hr")) return formattedTime
+
+    formattedTime = minutes ? `${minutes}min ${Math.ceil(seconds)}s` : `${seconds}s`
+    if (formattedTime.includes("min")) return formattedTime
+
+    formattedTime = ~~seconds ? `${Math.ceil(seconds)}s` : `${seconds.toFixed(2)}s`
+    return formattedTime
 }
 
 // Setup worker
@@ -122,6 +149,7 @@ singleForm.addEventListener("submit", evt => {
 
 batchForm.addEventListener("submit", evt => {
     evt.preventDefault()
+    loadProgress()
 })
 
 back.addEventListener("click", navigateBack)
@@ -149,14 +177,6 @@ document.addEventListener("DOMContentLoaded", loadPage)
 //     downloadLink.element.remove()
 // }
 
-// // Setup Tabs
-// const tabContents = document.querySelectorAll("[data-tabs]")
-// const tabs = new Tabs("Single", ...tabContents)
 
-// // Setup Pages
-// const pageElements = document.querySelectorAll("[data-pages]")
-// const page = new Pages(...pageElements)
-// page.pages[0]._showButtons(false)
-// page.pages[1]._showButton("nextButton", false)
 // page.pages[1].nextButton.element.addEventListener("click", () => worker.postMessage([fileArray, selectElement.value]))
 // page.pages[2]._showButtons(false)
