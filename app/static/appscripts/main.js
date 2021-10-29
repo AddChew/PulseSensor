@@ -9,6 +9,9 @@ const alertMap = {
 const modal = document.querySelector(".sgds-modal")
 const closeButtons = document.querySelectorAll(".close-modal")
 
+// Text column
+const column = document.querySelector("#text-column")
+
 // Batch Tab
 const batchTab = document.querySelector("li:nth-child(2)")
 
@@ -19,7 +22,7 @@ const batchForm = document.querySelector(".batch")
 // Batch Pages
 const uploadPage = document.querySelector(".upload")
 const progressPage = document.querySelector(".progress-update")
-const downloadPage = document.querySelector("download")
+const downloadPage = document.querySelector(".download")
 
 // Submit buttons
 const singleSubmit = singleForm.querySelector("input[type='submit']")
@@ -174,7 +177,7 @@ singleForm.addEventListener("submit", evt => {
 batchForm.addEventListener("submit", evt => {
     evt.preventDefault()
     loadProgress()
-    worker.postMessage([parsedContent, selectElement.value])
+    worker.postMessage([parsedContent, column.value])
 })
 
 back.addEventListener("click", navigateBack)
