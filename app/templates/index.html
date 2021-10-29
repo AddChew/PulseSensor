@@ -13,6 +13,9 @@
     <!-- Include app icon -->
     <link rel="shortcut icon" href="{{ url_for('static', filename = 'images/favicon.ico') }}">
 
+    <!-- Include jQuery -->
+    <script src="{{ url_for('static', filename = 'appscripts/jquery-3.5.1.min.js') }}"></script>
+    
     <!-- Include Bootstrap -->
     <script src="{{ url_for('static', filename = 'appscripts/bootstrap.bundle.min.js') }}"></script>
 
@@ -86,7 +89,7 @@
 
                     <div class="row tab-content-container hidden" id="batch">
                         <div class="col">
-                            <div class="tab-content upload hidden">
+                            <div class="tab-content upload">
                                 <form class="batch">
                                     <div class="field">
                                         <div class="custom-file">
@@ -130,7 +133,7 @@
                                 </div>
                             </div>
 
-                            <div class="tab-content download">
+                            <div class="tab-content download hidden">
                                 <header class="alert alert-success border text-center">Job Completed!</header>
                                 <div class="sgds-section">
                                     <p class="text-center ready">Your <strong>Sentiment Analysis</strong> results are ready for download.</p>

@@ -25,6 +25,10 @@ const downloadPage = document.querySelector("download")
 const singleSubmit = singleForm.querySelector("input[type='submit']")
 const batchSubmit = batchForm.querySelector("input[type='submit']")
 
+// Progress elements
+const progressText = document.querySelector(".progress-text")
+const progressBar = document.querySelector(".sgds-progress")
+
 // Back button
 const back = document.querySelector("button.is-outlined")
 
@@ -33,7 +37,8 @@ const download = document.querySelector("button.is-link")
 
 // Alert messages
 const prediction = document.querySelector(".alert")
-const predictionTime = document.querySelector(".alert-secondary")
+const singlePredTime = document.querySelector(".alert-secondary")
+const batchPredTime = document.querySelector(".download .alert")
 
 // Function to toggle submit button value
 let toggleButtonValue = submit => {
@@ -52,8 +57,8 @@ let singlePredOutput = (modelOutput, timeTaken) => {
     prediction.textContent = `${predClasses} sentiment with a probability of ${maxProbs}`
     prediction.classList.replace("hidden", alertMap[predClasses])
 
-    predictionTime.textContent = `Prediction was successfully completed in ${formatTime(timeTaken)}`
-    predictionTime.classList.remove("hidden")
+    singlePredTime.textContent = `Prediction was successfully completed in ${formatTime(timeTaken)}`
+    singlePredTime.classList.remove("hidden")
     toggleButtonValue(singleSubmit)
 }
 
@@ -63,10 +68,25 @@ let getSinglePred = () => {
 
     prediction.classList.remove("alert-success", "alert-primary", "alert-danger")
     prediction.classList.add("hidden")
-    predictionTime.classList.add("hidden")
+    singlePredTime.classList.add("hidden")
 
     toggleButtonValue(singleSubmit)
     worker.postMessage([textAreaInput, null])   
+}
+
+// Function to download batch predictions
+let downloadPreds = modelOutput => {
+    const csv = d3.csvFormat(modelOutput)
+    const csvBlob = new Blob([csv], {type: 'text/csv;'})
+    const csvURL = URL.createObjectURL(csvBlob)
+
+    const downloadLink = document.createElement("a")
+    downloadLink.setAttribute("href", csvURL)
+    downloadLink.setAttribute("download", "Predicted Sentiments.csv")
+    download.after(downloadLink)
+
+    downloadLink.click()
+    downloadLink.remove()
 }
 
 // Function to configure the close and ok buttons
@@ -83,6 +103,12 @@ let configureCloseButtons = () => {
 let loadProgress = () => {
     uploadPage.classList.add("hidden")
     progressPage.classList.remove("hidden")
+}
+
+// Function to navigate to download page
+let loadDownload = () => {
+    progressPage.classList.add("hidden")
+    downloadPage.classList.remove("hidden")
 }
 
 // Functions to refresh page
@@ -124,20 +150,18 @@ let formatTime = timeTaken => {
 // Setup worker
 const worker = new Worker("static/appscripts/worker.js")
 worker.onmessage = message => {
-    // if (typeof message.data === "number") {
-    //     progress.update(message.data)
-    //     progressValueElement.textContent = `${progress.value}%`
-    //     return
-    // }
+    if (typeof message.data === "number") {
+        progressBar.value += message.data
+        progressText.textContent = `${~~progressBar.value}%`
+        return
+    }
     const [modelOutput, timeTaken] = message.data
-    // if (Array.isArray(modelOutput)) { 
-    //     progress.valueElement.element.classList.add("no-animation")
-    //     predTimeBatch.textContent = `Predictions were successfully completed in ${timeTaken}s`
-    //     predTimeBatch.classList.add('info')
-    //     download.element.classList.remove("custom-hidden")
-    //     download.element.addEventListener("click", () => downloadPredictions(modelOutput))
-    //     return
-    // }
+    if (Array.isArray(modelOutput)) { 
+        batchPredTime.textContent = `Job Completed in ${formatTime(timeTaken)}!`
+        download.addEventListener("click", () => downloadPreds(modelOutput))
+        loadDownload()
+        return
+    }
     singlePredOutput(modelOutput, timeTaken)
 }
 
@@ -150,33 +174,8 @@ singleForm.addEventListener("submit", evt => {
 batchForm.addEventListener("submit", evt => {
     evt.preventDefault()
     loadProgress()
+    worker.postMessage([parsedContent, selectElement.value])
 })
 
 back.addEventListener("click", navigateBack)
 document.addEventListener("DOMContentLoaded", loadPage)
-
-
-
-// // Setup Progress Bar Page
-// const progressElement = document.querySelector(".progress")
-// const progress = new Progress(progressElement, 0, "custom-progress")
-// const progressValueElement = document.querySelector(".progress-percent")
-// const predTimeBatch = document.querySelector(".message.pred-time.batch")
-// const downloadElement = document.querySelector(".download")
-// const download = new ContainerElement(downloadElement, "Download", "custom-button", "custom-hidden")
-
-// let downloadPredictions = modelOutput => {
-//     const csv = d3.csvFormat(modelOutput)
-//     const csvBlob = new Blob([csv], {type: 'text/csv;'})
-//     const csvURL = URL.createObjectURL(csvBlob)
-//     const downloadLink = new BaseElement("a", "download-link")
-//     downloadLink.element.setAttribute("href", csvURL)
-//     downloadLink.element.setAttribute("download", "Predicted Sentiments.csv")
-//     download.element.after(downloadLink.element)
-//     downloadLink.element.click()
-//     downloadLink.element.remove()
-// }
-
-
-// page.pages[1].nextButton.element.addEventListener("click", () => worker.postMessage([fileArray, selectElement.value]))
-// page.pages[2]._showButtons(false)
