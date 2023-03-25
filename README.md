@@ -5,7 +5,7 @@ Pulse Sensor is a client side single page web application, providing sentiment a
 
 #### Run from web browser
 This method does not require any prior setup (i.e. you do not need to have Python or Anaconda installed on your computer).
-1. Navigate to [Pulse Sensor](https://the-pulse-sensor.herokuapp.com/). (No longer working as Heroku no longer provides free hosting services)
+1. Navigate to [Pulse Sensor](https://the-pulse-sensor.herokuapp.com/). (Does not work anymore as Heroku no longer provides free hosting services)
 
 #### Run from source code
 This set of instructions assumes that you already have anaconda prompt installed on your computer.
